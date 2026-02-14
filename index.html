@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <title>URBP 295 Collage</title>
+
+        <!-- Leaflet CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+            }
+            
+            #map {
+                width: 100%;
+                height: 100vh;
+            }
+            
+            .map-title {
+                position: absolute;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 1000;
+                background: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .leaflet-image-layer:hover {
+                z-index: 1000 !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        
+        <!-- Leaflet JavaScript -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+                crossorigin="">
+        </script>
+        <script>
+            const map = L.map('map').setView([37.368567140269306, -121.87689414145946], 18);
+            
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+                maxZoom: 21
+            }).addTo(map);
+
+            // Function to load and create overlays from JSON
+            function loadOverlaysFromJSON(jsonUrl, map) {
+                fetch(jsonUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.overlays.forEach(overlayData => {
+                            createImageOverlay(overlayData, map);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error loading overlays:', error);
+                    });
+            }
+
+            // Constructor function to create individual overlay
+            function createImageOverlay(overlayData, map) {
+                var imageBounds = [
+                    overlayData.bounds.northEast,
+                    overlayData.bounds.southWest
+                ];
+                
+                var imageOverlay = L.imageOverlay(overlayData.imageUrl, imageBounds, {
+                    opacity: 1,
+                    interactive: true
+                }).addTo(map);
+                
+                imageOverlay.on('click', function() {
+                    playAudioWithFade(overlayData.soundUrl);
+                });
+                
+                return imageOverlay;
+            }
+
+            // Usage: Load all overlays
+            loadOverlaysFromJSON('assets/data/overlays.json', map);
+
+            var collageCenter = {
+                lat: 37.36880615622867,
+                lng: -121.87840187186458
+            };
+
+            // Image dimensions: 5472 x 3648 (aspect ratio 1.5:1)
+            var imageSize = {
+                latOffset: 0.0001,  // Height of each image (matching your first image)
+                lngOffset: 0.00015  // Width (1.5x height for correct aspect ratio)
+            };
+
+            // Spread area - how far images can scatter from center
+            var spreadRadius = 0.0006; // Adjust this to control how spread out the collage is
+
+            var imageUrls = [
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026587/IMG_12_h9z2j4.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026590/IMG_6_dvppyv.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026590/IMG_8_axwefh.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026586/IMG_7_famvqv.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026587/IMG_10_orlaub.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026585/IMG_9_jigs8l.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026585/IMG_4_sbjwyp.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026584/IMG_3_h5dhp5.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026554/IMG_5_impkrw.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026537/IMG_1_apnf2j.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026527/IMG_2_kclew4.jpg',
+                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771027135/IMG_11_vj6g0w.jpg'
+            ];
+
+            imageUrls.forEach(function(url, index) {
+                var randomLat = collageCenter.lat + (Math.random() - 0.5) * spreadRadius * 2;
+                var randomLng = collageCenter.lng + (Math.random() - 0.5) * spreadRadius * 2;
+                var randomRotation = Math.random() * 360;
+                
+                var imageBounds = [
+                    [randomLat - imageSize.latOffset, randomLng - imageSize.lngOffset],
+                    [randomLat + imageSize.latOffset, randomLng + imageSize.lngOffset]
+                ];
+                
+                var overlay = L.imageOverlay(url, imageBounds, {
+                    opacity: 1,
+                    interactive: true,
+                    className: 'collage-image'
+                }).addTo(map);
+                
+                var overlayElement = overlay.getElement();
+            });
+
+            var style = document.createElement('style');
+            style.textContent = `
+                .collage-image:hover {
+                    opacity: 1 !important;
+                    z-index: 1000 !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            
+            const landmarks = [
+                {
+                    coords: [37.3352, -121.8811],
+                    name: "San Jose City Hall",
+                    description: "Downtown San Jose"
+                },
+                {
+                    coords: [37.3271, -121.9014],
+                    name: "SAP Center",
+                    description: "Home of the San Jose Sharks"
+                },
+                {
+                    coords: [37.3337, -121.8907],
+                    name: "San Jose Museum of Art",
+                    description: "Contemporary art museum"
+                }
+            ];
+            
+            landmarks.forEach(landmark => {
+                L.marker(landmark.coords)
+                    .addTo(map)
+                    .bindPopup(`<b>${landmark.name}</b><br>${landmark.description}`);
+            });
+
+            // Global audio management
+            var currentAudio = null;
+            var isFading = false;
+
+            // Function to get current slider volume
+            function getSliderVolume() {
+                return document.getElementById('volumeSlider').value / 100;
+            }
+
+            // Function to play audio with fade out
+            function playAudioWithFade(audioFile) {
+                // Stop any currently playing audio
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+                
+                // Create or reuse audio object
+                if (!currentAudio || currentAudio.src !== audioFile) {
+                    currentAudio = new Audio(audioFile);
+                    
+                    // Add fade out listener
+                    currentAudio.addEventListener('timeupdate', function() {
+                        var fadeOutDuration = 3;
+                        var timeLeft = currentAudio.duration - currentAudio.currentTime;
+                        var sliderVolume = getSliderVolume();
+                        
+                        if (timeLeft <= fadeOutDuration && timeLeft > 0 && !currentAudio.paused) {
+                            isFading = true;
+                            currentAudio.volume = sliderVolume * (timeLeft / fadeOutDuration);
+                        } else if (!isFading) {
+                            currentAudio.volume = sliderVolume;
+                        }
+                    });
+                }
+                
+                // Reset and play
+                currentAudio.currentTime = 0;
+                isFading = false;
+                currentAudio.volume = getSliderVolume();
+                currentAudio.play();
+            }
+
+            // Create volume control
+            L.Control.VolumeControl = L.Control.extend({
+                onAdd: function(map) {
+                    var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+                    
+                    container.style.backgroundColor = 'white';
+                    container.style.padding = '10px';
+                    container.style.borderRadius = '4px';
+                    container.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 16px;">🔊</span>
+                            <input type="range" min="0" max="100" value="50" 
+                                style="width: 100px;" id="volumeSlider">
+                            <span id="volumeValue" style="font-size: 12px; min-width: 35px;">50%</span>
+                        </div>
+                    `;
+                    
+                    L.DomEvent.disableClickPropagation(container);
+                    L.DomEvent.disableScrollPropagation(container);
+                    
+                    return container;
+                }
+            });
+
+            var volumeControl = new L.Control.VolumeControl({ position: 'topright' });
+            volumeControl.addTo(map);
+
+            // Connect slider to audio
+            document.getElementById('volumeSlider').addEventListener('input', function(e) {
+                var volume = e.target.value / 100;
+                if (currentAudio && !isFading) {
+                    currentAudio.volume = volume;
+                }
+                document.getElementById('volumeValue').textContent = e.target.value + '%';
+            });
+
+        </script>
+    </body>
+</html>

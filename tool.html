@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Georeferencing Tool</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        #controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            z-index: 1000;
+            max-width: 350px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        #controls h2 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .control-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        input[type="file"] {
+            padding: 5px;
+            background: white;
+            border: none;
+            border-radius: 3px;
+        }
+        
+        input[type="number"], input[type="range"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 100px;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        button.danger {
+            background: #e74c3c;
+        }
+        
+        button.danger:hover {
+            background: #c0392b;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+        
+        #coordinates-output {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(52, 73, 94, 0.95);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            z-index: 1000;
+        }
+        
+        .copy-button {
+            background: #27ae60;
+            font-size: 16px;
+            padding: 10px 20px;
+        }
+        
+        .copy-button:hover {
+            background: #229954;
+        }
+        
+        .instructions {
+            background: #f39c12;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+        
+        /* Image overlay styling */
+        .image-overlay-container {
+            position: absolute;
+            pointer-events: none;
+            z-index: 400;
+        }
+        
+        .image-overlay-container.draggable {
+            pointer-events: auto;
+            cursor: move;
+        }
+        
+        .image-overlay-container img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .corner-handle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #e74c3c;
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: auto;
+            z-index: 1000;
+            margin-left: -10px;
+            margin-top: -10px;
+        }
+        
+        .corner-handle:hover {
+            background: #c0392b;
+            transform: scale(1.2);
+        }
+        
+        .corner-handle.nw { cursor: nw-resize; }
+        .corner-handle.ne { cursor: ne-resize; }
+        .corner-handle.sw { cursor: sw-resize; }
+        .corner-handle.se { cursor: se-resize; }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <h2>🗺️ Image Georeferencing Tool</h2>
+        
+        <div class="instructions">
+            <strong>Instructions:</strong> Upload image → Drag to move → Use corners to resize → Rotate → Export
+        </div>
+        
+        <div class="control-group">
+            <label>Upload Image:</label>
+            <div class="control-row">
+                <input type="file" id="imageUpload" accept="image/*">
+                <button onclick="removeImage()" class="danger">Remove</button>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label>Image Opacity:</label>
+            <div class="control-row">
+                <input type="range" id="opacitySlider" min="0" max="1" step="0.1" value="0.8">
+                <span id="opacityValue">0.8</span>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label>Rotation (degrees):</label>
+            <div class="control-row">
+                <input type="range" id="rotationSlider" min="0" max="360" step="1" value="0">
+                <span id="rotationValue">0</span>
+            </div>
+        </div>
+    </div>
+    
+    <div id="map"></div>
+    
+    <div id="coordinates-output">
+        <button class="copy-button" onclick="exportAndCopy()">📋 Export & Copy Code</button>
+    </div>
+    
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    
+    <script>
+        // Initialize map
+        const map = L.map('map').setView([37.36880615622867, -121.87840187186458], 18);
+        
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri',
+            maxZoom: 21
+        }).addTo(map);
+        
+        // State
+        let currentImage = null;
+        let imageContainer = null;
+        let rotation = 0;
+        let bounds = {
+            pixelBounds: { x: 300, y: 200, width: 400, height: 300 },
+            latLngBounds: null
+        };
+        
+        // Upload handler
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    loadImage(event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        function loadImage(dataUrl) {
+            removeImage();
+            
+            currentImage = new Image();
+            currentImage.onload = function() {
+                createImageOverlay(dataUrl);
+            };
+            currentImage.src = dataUrl;
+        }
+        
+        function createImageOverlay(dataUrl) {
+            // Create container
+            imageContainer = document.createElement('div');
+            imageContainer.className = 'image-overlay-container draggable';
+            imageContainer.style.left = bounds.pixelBounds.x + 'px';
+            imageContainer.style.top = bounds.pixelBounds.y + 'px';
+            imageContainer.style.width = bounds.pixelBounds.width + 'px';
+            imageContainer.style.height = bounds.pixelBounds.height + 'px';
+            imageContainer.style.opacity = document.getElementById('opacitySlider').value;
+            
+            // Add image
+            const img = document.createElement('img');
+            img.src = dataUrl;
+            imageContainer.appendChild(img);
+            
+            // Add to map
+            map.getContainer().appendChild(imageContainer);
+            
+            // Enable dragging
+            enableDragging();
+            
+            // Add corner handles
+            addCornerHandles();
+            
+            updateRotation();
+        }
+        
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        
+        function enableDragging() {
+            imageContainer.addEventListener('mousedown', function(e) {
+                if (e.target.classList.contains('corner-handle')) return;
+                
+                isDragging = true;
+                dragStart = {
+                    x: e.clientX - bounds.pixelBounds.x,
+                    y: e.clientY - bounds.pixelBounds.y
+                };
+                
+                map.dragging.disable();
+                e.preventDefault();
+            });
+        }
+        
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                bounds.pixelBounds.x = e.clientX - dragStart.x;
+                bounds.pixelBounds.y = e.clientY - dragStart.y;
+                updateImagePosition();
+            }
+        });
+        
+        document.addEventListener('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                map.dragging.enable();
+            }
+        });
+        
+        function updateImagePosition() {
+            if (imageContainer) {
+                imageContainer.style.left = bounds.pixelBounds.x + 'px';
+                imageContainer.style.top = bounds.pixelBounds.y + 'px';
+                updateCornerHandles();
+            }
+        }
+        
+        function addCornerHandles() {
+            const corners = ['nw', 'ne', 'sw', 'se'];
+            corners.forEach(corner => {
+                const handle = document.createElement('div');
+                handle.className = 'corner-handle ' + corner;
+                handle.dataset.corner = corner;
+                imageContainer.appendChild(handle);
+                
+                handle.addEventListener('mousedown', function(e) {
+                    e.stopPropagation();
+                    startCornerDrag(corner, e);
+                });
+            });
+            updateCornerHandles();
+        }
+        
+        function updateCornerHandles() {
+            if (!imageContainer) return;
+            
+            const handles = imageContainer.querySelectorAll('.corner-handle');
+            handles.forEach(handle => {
+                const corner = handle.dataset.corner;
+                if (corner === 'nw') {
+                    handle.style.left = '0px';
+                    handle.style.top = '0px';
+                } else if (corner === 'ne') {
+                    handle.style.left = bounds.pixelBounds.width + 'px';
+                    handle.style.top = '0px';
+                } else if (corner === 'sw') {
+                    handle.style.left = '0px';
+                    handle.style.top = bounds.pixelBounds.height + 'px';
+                } else if (corner === 'se') {
+                    handle.style.left = bounds.pixelBounds.width + 'px';
+                    handle.style.top = bounds.pixelBounds.height + 'px';
+                }
+            });
+        }
+        
+        let isResizing = false;
+        let resizeCorner = null;
+        let resizeStart = { x: 0, y: 0, bounds: null };
+        
+        function startCornerDrag(corner, e) {
+            isResizing = true;
+            resizeCorner = corner;
+            resizeStart = {
+                x: e.clientX,
+                y: e.clientY,
+                bounds: { ...bounds.pixelBounds }
+            };
+            map.dragging.disable();
+            e.preventDefault();
+        }
+        
+        document.addEventListener('mousemove', function(e) {
+            if (isResizing) {
+                const dx = e.clientX - resizeStart.x;
+                const dy = e.clientY - resizeStart.y;
+                
+                const centerX = resizeStart.bounds.x + resizeStart.bounds.width / 2;
+                const centerY = resizeStart.bounds.y + resizeStart.bounds.height / 2;
+                
+                // Calculate new size based on corner
+                let newWidth = resizeStart.bounds.width;
+                let newHeight = resizeStart.bounds.height;
+                
+                if (resizeCorner.includes('e')) newWidth += dx;
+                if (resizeCorner.includes('w')) newWidth -= dx;
+                if (resizeCorner.includes('s')) newHeight += dy;
+                if (resizeCorner.includes('n')) newHeight -= dy;
+                
+                // Update bounds from center
+                bounds.pixelBounds.width = Math.max(50, newWidth);
+                bounds.pixelBounds.height = Math.max(50, newHeight);
+                bounds.pixelBounds.x = centerX - bounds.pixelBounds.width / 2;
+                bounds.pixelBounds.y = centerY - bounds.pixelBounds.height / 2;
+                
+                updateImageSize();
+            }
+        });
+        
+        document.addEventListener('mouseup', function() {
+            if (isResizing) {
+                isResizing = false;
+                resizeCorner = null;
+                map.dragging.enable();
+            }
+        });
+        
+        function updateImageSize() {
+            if (imageContainer) {
+                imageContainer.style.left = bounds.pixelBounds.x + 'px';
+                imageContainer.style.top = bounds.pixelBounds.y + 'px';
+                imageContainer.style.width = bounds.pixelBounds.width + 'px';
+                imageContainer.style.height = bounds.pixelBounds.height + 'px';
+                updateCornerHandles();
+            }
+        }
+        
+        // Opacity slider
+        document.getElementById('opacitySlider').addEventListener('input', function(e) {
+            const opacity = parseFloat(e.target.value);
+            document.getElementById('opacityValue').textContent = opacity.toFixed(1);
+            if (imageContainer) {
+                imageContainer.style.opacity = opacity;
+            }
+        });
+        
+        // Rotation slider
+        document.getElementById('rotationSlider').addEventListener('input', function(e) {
+            rotation = parseFloat(e.target.value);
+            document.getElementById('rotationValue').textContent = rotation;
+            updateRotation();
+        });
+        
+        function updateRotation() {
+            if (imageContainer) {
+                imageContainer.style.transform = `rotate(${rotation}deg)`;
+                imageContainer.style.transformOrigin = 'center';
+            }
+        }
+        
+        function removeImage() {
+            if (imageContainer) {
+                imageContainer.remove();
+                imageContainer = null;
+            }
+            currentImage = null;
+        }
+        
+        // Export and generate code
+        async function exportAndCopy() {
+            if (!imageContainer || !currentImage) {
+                alert('Please upload an image first');
+                return;
+            }
+            
+            const opacity = parseFloat(document.getElementById('opacitySlider').value);
+            
+            if (rotation !== 0) {
+                // Rotation applied - export rotated image
+                
+                // Use original image dimensions for high resolution export
+                const originalWidth = currentImage.naturalWidth;
+                const originalHeight = currentImage.naturalHeight;
+                const radians = (rotation * Math.PI) / 180;
+                
+                // Calculate bounding box of rotated rectangle at original resolution
+                const cos = Math.abs(Math.cos(radians));
+                const sin = Math.abs(Math.sin(radians));
+                const newWidth = Math.ceil(originalWidth * cos + originalHeight * sin);
+                const newHeight = Math.ceil(originalWidth * sin + originalHeight * cos);
+                
+                // Create canvas with expanded size at original resolution
+                const canvas = document.createElement('canvas');
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                const ctx = canvas.getContext('2d');
+                
+                // Enable high quality rendering
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                
+                // Make background transparent
+                ctx.clearRect(0, 0, newWidth, newHeight);
+                
+                // Draw rotated image centered in expanded canvas at original resolution
+                ctx.translate(newWidth / 2, newHeight / 2);
+                ctx.rotate(radians);
+                ctx.drawImage(currentImage, -originalWidth / 2, -originalHeight / 2, originalWidth, originalHeight);
+                
+                // Convert to data URL with high quality
+                const rotatedImageData = canvas.toDataURL('image/png', 1.0);
+                
+                // Calculate lat/lng bounds based on screen display position
+                const centerX = bounds.pixelBounds.x + bounds.pixelBounds.width / 2;
+                const centerY = bounds.pixelBounds.y + bounds.pixelBounds.height / 2;
+                
+                // Calculate screen size of expanded bounding box
+                const screenWidth = bounds.pixelBounds.width;
+                const screenHeight = bounds.pixelBounds.height;
+                const screenNewWidth = Math.ceil(screenWidth * cos + screenHeight * sin);
+                const screenNewHeight = Math.ceil(screenWidth * sin + screenHeight * cos);
+                
+                // The expanded bounding box in screen space
+                const nwX = centerX - screenNewWidth / 2;
+                const nwY = centerY - screenNewHeight / 2;
+                const seX = centerX + screenNewWidth / 2;
+                const seY = centerY + screenNewHeight / 2;
+                
+                // Convert to lat/lng
+                const nw = map.containerPointToLatLng([nwX, nwY]);
+                const se = map.containerPointToLatLng([seX, seY]);
+                
+                // Generate code
+                const code = `var imageUrl = 'YOUR_IMAGE_URL_HERE.png', // Replace with your hosted image URL
+    imageBounds = [[${nw.lat.toFixed(8)}, ${nw.lng.toFixed(8)}], [${se.lat.toFixed(8)}, ${se.lng.toFixed(8)}]];
+
+L.imageOverlay(imageUrl, imageBounds, {
+    opacity: ${opacity},
+    interactive: true
+}).addTo(map);`;
+                
+                // Copy to clipboard
+                await navigator.clipboard.writeText(code);
+                
+                // Download rotated image
+                const link = document.createElement('a');
+                link.download = 'georeferenced_image.png';
+                link.href = rotatedImageData;
+                link.click();
+                
+                // Show success
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✓ Exported & Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+                
+            } else {
+                // No rotation - just output code, no image download
+                
+                // Calculate lat/lng bounds from screen position
+                const nw = map.containerPointToLatLng([bounds.pixelBounds.x, bounds.pixelBounds.y]);
+                const se = map.containerPointToLatLng([
+                    bounds.pixelBounds.x + bounds.pixelBounds.width,
+                    bounds.pixelBounds.y + bounds.pixelBounds.height
+                ]);
+                
+                // Generate code
+                const code = `var imageUrl = 'YOUR_IMAGE_URL_HERE.png', // Replace with your original image URL
+    imageBounds = [[${nw.lat.toFixed(8)}, ${nw.lng.toFixed(8)}], [${se.lat.toFixed(8)}, ${se.lng.toFixed(8)}]];
+
+L.imageOverlay(imageUrl, imageBounds, {
+    opacity: ${opacity},
+    interactive: true
+}).addTo(map);`;
+                
+                // Copy to clipboard
+                await navigator.clipboard.writeText(code);
+                
+                // Show success (no download)
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✓ Code Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>

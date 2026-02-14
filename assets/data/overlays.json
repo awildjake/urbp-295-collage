@@ -1,0 +1,40 @@
+{
+  "overlays": [
+    {
+      "id": "map1",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026511/georeferenced_image_wltrrb.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.37257442, -121.87853694],
+        "southWest": [37.36878014, -121.87325835]
+      }
+    },
+    {
+      "id": "overlay_2",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026527/IMG_2_kclew4.jpg",
+      "soundUrl": "https://res.cloudinary.com/do0ehwhde/video/upload/v1771026684/sound3_gzocrq.mp3",
+      "bounds": {
+        "northEast": [37.36844333, -121.87621683],
+        "southWest": [37.36780382, -121.87514395]
+      }
+    },
+    {
+      "id": "overlay_3",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026537/IMG_1_apnf2j.jpg",
+      "soundUrl": "https://res.cloudinary.com/do0ehwhde/video/upload/v1771026684/sound2_kboqo8.mp3",
+      "bounds": {
+        "northEast": [37.36814703, -121.87725753],
+        "southWest": [37.36750752, -121.87618464]
+      }
+    },
+    {
+      "id": "overlay_4",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026554/IMG_5_impkrw.jpg",
+      "soundUrl": "https://res.cloudinary.com/do0ehwhde/video/upload/v1771026684/sound1_aodzze.mp3",
+      "bounds": {
+        "northEast": [37.36865224, -121.87698126],
+        "southWest": [37.36801273, -121.87590837]
+      }
+    }
+  ]
+}
