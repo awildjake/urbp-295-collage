@@ -572,13 +572,7 @@
                 const se = map.containerPointToLatLng([seX, seY]);
                 
                 // Generate code
-                const code = `var imageUrl = 'YOUR_IMAGE_URL_HERE.png', // Replace with your hosted image URL
-    imageBounds = [[${nw.lat.toFixed(8)}, ${nw.lng.toFixed(8)}], [${se.lat.toFixed(8)}, ${se.lng.toFixed(8)}]];
-
-L.imageOverlay(imageUrl, imageBounds, {
-    opacity: ${opacity},
-    interactive: true
-}).addTo(map);`;
+                const code = `[[${nw.lat.toFixed(8)}, ${nw.lng.toFixed(8)}], [${se.lat.toFixed(8)}, ${se.lng.toFixed(8)}]]`;
                 
                 // Copy to clipboard
                 await navigator.clipboard.writeText(code);
@@ -608,13 +602,7 @@ L.imageOverlay(imageUrl, imageBounds, {
                 ]);
                 
                 // Generate code
-                const code = `var imageUrl = 'YOUR_IMAGE_URL_HERE.png', // Replace with your original image URL
-    imageBounds = [[${nw.lat.toFixed(8)}, ${nw.lng.toFixed(8)}], [${se.lat.toFixed(8)}, ${se.lng.toFixed(8)}]];
-
-L.imageOverlay(imageUrl, imageBounds, {
-    opacity: ${opacity},
-    interactive: true
-}).addTo(map);`;
+                const code = `[[${nw.lat.toFixed(8)}, ${nw.lng.toFixed(8)}], [${se.lat.toFixed(8)}, ${se.lng.toFixed(8)}]]`;
                 
                 // Copy to clipboard
                 await navigator.clipboard.writeText(code);
