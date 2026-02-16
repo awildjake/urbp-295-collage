@@ -53,18 +53,20 @@
 
             .popup-container {
                 position: fixed;
-                top: 50%;
+                top: 5vh;
                 left: 50%;
-                transform: translate(-50%, -50%);
+                transform: translateX(-50%);
                 background: black;
                 padding: 0;
-                border: 8px solid #000000;
+                border: 8px solid #d4d965;
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
                 z-index: 10000;
                 max-width: 800px;
                 max-height: 90vh;
-                overflow: hidden;
+                overflow: visible;
                 animation: slideUp 0.3s ease-out;
+                display: flex;
+                flex-direction: column;
             }
 
             .popup-close-btn {
@@ -92,12 +94,6 @@
             .popup-close-btn:hover {
                 background: #d4d965;
                 color: black;
-                transform: rotate(90deg);
-                box-shadow: 0 4px 12px rgba(212, 217, 101, 0.4);
-            }
-
-            .popup-close-btn:active {
-                transform: rotate(90deg) scale(0.95);
             }
 
             .popup-image {
@@ -109,8 +105,13 @@
             }
 
             .popup-caption {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translate(-50%, 50%);
+                max-width: 100%;
                 margin: 0;
-                padding: 32px 40px;
+                padding: 15px 20px;
                 font-size: 24px;
                 line-height: 1.4;
                 color: black;
@@ -118,7 +119,8 @@
                 background: #d4d965;
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
                 font-weight: 500;
-                border-top: 8px solid black;
+                border: 8px solid black;
+                box-sizing: border-box;
             }
 
             @keyframes fadeIn {
@@ -133,33 +135,11 @@
             @keyframes slideUp {
                 from {
                     opacity: 0;
-                    transform: translate(-50%, -45%);
+                    transform: translateX(-50%) translateY(20px);
                 }
                 to {
                     opacity: 1;
-                    transform: translate(-50%, -50%);
-                }
-            }
-
-            @media (max-width: 768px) {
-                .popup-container {
-                    max-width: 95%;
-                    max-height: 95vh;
-                    border: 6px solid #d4d965;
-                }
-                
-                .popup-caption {
-                    padding: 24px 28px;
-                    font-size: 18px;
-                    border-top: 6px solid black;
-                }
-                
-                .popup-close-btn {
-                    top: 12px;
-                    right: 12px;
-                    width: 32px;
-                    height: 32px;
-                    font-size: 20px;
+                    transform: translateX(-50%) translateY(0);
                 }
             }
 
@@ -285,7 +265,15 @@
                 var caption = document.createElement('p');
                 caption.className = 'popup-caption';
                 caption.textContent = captionText;
-                
+
+                // Adjust caption width to match image width after image loads
+                img.addEventListener('load', function() {
+                    // Get the actual rendered width of the image
+                    var imageWidth = img.offsetWidth;
+                    // Set caption width to match (subtract border width: 16px total)
+                    caption.style.width = (imageWidth - 16) + 'px';
+                });
+
                 // Create overlay background
                 var overlay = document.createElement('div');
                 overlay.className = 'popup-overlay';
@@ -307,7 +295,11 @@
                 document.body.appendChild(popupContainer);
             }
 
+            /*
+            Interactive overlay popup images go here
+            */
 
+            // Popup 1
             var imageUrlInter1 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771268371/Asset_4_drtycr.png', // Replace with your original image URL
                 imageBoundsInter1 = [[37.37099065, -121.87870059], [37.37046218, -121.87834110]];
 
@@ -324,6 +316,46 @@
                     'North of the Berryessa Flea Market, a mixed use housing complex occupies what was once an additional parking lot for the market.'
                 );
             });
+
+            // Popup 2
+            var imageUrlInter3 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771271693/Asset_2_kydax3.png', // Replace with your original image URL
+                imageBoundsInter3 = [[37.36953794, -121.87663206], [37.36928326, -121.87634877]];
+
+            var imageInter3 = L.imageOverlay(imageUrlInter3, imageBoundsInter3, {
+                opacity: 1,
+                interactive: true
+            }).addTo(map);
+
+            var imageUrlInter4 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771271713/IMG_3143_l12ze8.jpg';
+
+            imageInter3.on('click', function() {
+                createImagePopup(
+                    imageUrlInter4,
+                    "These hats feature the names of 8 Mexican states, they are adorned in the traditional \"Piteado\" style which typically consists of embroidered leather."
+                );
+            });
+
+            // Popup 3
+            var imageUrlInter5 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771268861/Asset_1_wjwdor.png', // Replace with your original image URL
+                imageBoundsInter5 = [[37.36943227, -121.87799916], [37.36889410, -121.87743321]];
+
+            var imageInter5 = L.imageOverlay(imageUrlInter5, imageBoundsInter5, {
+                opacity: 1,
+                interactive: true
+            }).addTo(map);
+
+            var imageUrlInter6 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771272128/IMG_3155_zjguol.jpg';
+
+            imageInter5.on('click', function() {
+                createImagePopup(
+                    imageUrlInter6,
+                    "Traditional Mexican wares include \"cantaro\" clay pottery and different versions of the Virgin Mary."
+                );
+            });
+
+            /*
+            End of interactive overlay popup images
+            */
 
             var style = document.createElement('style');
             style.textContent = `
