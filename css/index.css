@@ -1,0 +1,201 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+#map {
+    width: 100%;
+    height: 100vh;
+}
+
+.map-title {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Applies to all image overlays. Moves image to very front (z-index). */
+.leaflet-image-layer:hover {
+    z-index: 1000 !important;
+}
+
+/* Applies to only images with overlay popups. Moves image to very front (z-index). */
+.custom-overlay-shadow {
+    filter: drop-shadow(2px 2px 2px rgba(212, 217, 101, 0.8));
+    transition: filter 0.3s ease;
+}
+
+.custom-overlay-shadow:hover {
+    filter: drop-shadow(0 0 20px rgba(212, 217, 101, 0.8)) drop-shadow(8px 8px 2px rgba(0, 0, 0, 0.9));
+}
+
+/* Defines overlay popup styles. */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease-out;
+}
+
+.popup-container {
+    position: fixed;
+    top: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background: black;
+    padding: 0;
+    border: 8px solid #d4d965;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: visible;
+    animation: slideUp 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    border: 2px solid #d4d965;
+    background: rgba(0, 0, 0, 0.8);
+    color: #d4d965;
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    z-index: 1;
+    font-weight: 300;
+}
+
+.popup-close-btn:hover {
+    background: #d4d965;
+    color: black;
+}
+
+.popup-image {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    display: block;
+    background: transparent;
+}
+
+.popup-caption {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    max-width: 100%;
+    margin: 0;
+    padding: 15px 20px;
+    font-size: 24px;
+    line-height: 1.4;
+    color: black;
+    text-align: left;
+    background: #d4d965;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 500;
+    border: 8px solid black;
+    box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Navigation Control Styles - Leaflet Style Horizontal */
+.leaflet-control-navigation {
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    border-radius: 4px;
+    display: flex;
+}
+
+.leaflet-control-navigation a {
+    background-color: #fff;
+    border-right: 1px solid #ccc;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.leaflet-control-navigation a:hover {
+    background-color: #f4f4f4;
+}
+
+.leaflet-control-navigation a:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.leaflet-control-navigation a:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-right: none;
+}
+
+.leaflet-control-navigation a.disabled {
+    color: #bbb;
+    cursor: default;
+    pointer-events: none;
+}
+
+.nav-counter {
+    background-color: #fff;
+    width: 40px;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    border-right: 1px solid #ccc;
+}
