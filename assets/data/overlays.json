@@ -1,15 +1,6 @@
 {
   "overlays": [
     {
-      "id": "map1",
-      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026511/georeferenced_image_wltrrb.png",
-      "soundUrl": "",
-      "bounds": {
-        "northEast": [37.37257442, -121.87853694],
-        "southWest": [37.36878014, -121.87325835]
-      }
-    },
-    {
       "id": "overlay_2",
       "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026527/IMG_2_kclew4.jpg",
       "soundUrl": "https://res.cloudinary.com/do0ehwhde/video/upload/v1771026684/sound3_gzocrq.mp3",

@@ -196,6 +196,13 @@
         </div>
         
         <div class="control-group">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="preserveAspectRatio" checked style="cursor: pointer;">
+                <span>Preserve Aspect Ratio</span>
+            </label>
+        </div>
+        
+        <div class="control-group">
             <label>Rotation (degrees):</label>
             <div class="control-row">
                 <input type="range" id="rotationSlider" min="0" max="360" step="1" value="0">
@@ -250,6 +257,21 @@
             
             currentImage = new Image();
             currentImage.onload = function() {
+                // Calculate initial size maintaining aspect ratio
+                const imageAspect = currentImage.naturalWidth / currentImage.naturalHeight;
+                
+                // Start with a reasonable width
+                const initialWidth = 400;
+                const initialHeight = initialWidth / imageAspect;
+                
+                // Update bounds with correct aspect ratio
+                bounds.pixelBounds = {
+                    x: 300,
+                    y: 200,
+                    width: initialWidth,
+                    height: initialHeight
+                };
+                
                 createImageOverlay(dataUrl);
             };
             currentImage.src = dataUrl;
@@ -385,18 +407,50 @@
                 const centerX = resizeStart.bounds.x + resizeStart.bounds.width / 2;
                 const centerY = resizeStart.bounds.y + resizeStart.bounds.height / 2;
                 
-                // Calculate new size based on corner
-                let newWidth = resizeStart.bounds.width;
-                let newHeight = resizeStart.bounds.height;
+                const preserveAspect = document.getElementById('preserveAspectRatio').checked;
                 
-                if (resizeCorner.includes('e')) newWidth += dx;
-                if (resizeCorner.includes('w')) newWidth -= dx;
-                if (resizeCorner.includes('s')) newHeight += dy;
-                if (resizeCorner.includes('n')) newHeight -= dy;
+                if (preserveAspect && currentImage) {
+                    // Calculate aspect ratio from original image
+                    const aspectRatio = currentImage.naturalWidth / currentImage.naturalHeight;
+                    
+                    // Calculate new size based on corner drag
+                    let newWidth = resizeStart.bounds.width;
+                    let newHeight = resizeStart.bounds.height;
+                    
+                    if (resizeCorner.includes('e')) newWidth += dx;
+                    if (resizeCorner.includes('w')) newWidth -= dx;
+                    if (resizeCorner.includes('s')) newHeight += dy;
+                    if (resizeCorner.includes('n')) newHeight -= dy;
+                    
+                    // Use the larger dimension change to maintain aspect ratio
+                    const widthChange = Math.abs(newWidth - resizeStart.bounds.width);
+                    const heightChange = Math.abs(newHeight - resizeStart.bounds.height);
+                    
+                    if (widthChange > heightChange) {
+                        // Width changed more, adjust height to match
+                        newHeight = newWidth / aspectRatio;
+                    } else {
+                        // Height changed more, adjust width to match
+                        newWidth = newHeight * aspectRatio;
+                    }
+                    
+                    bounds.pixelBounds.width = Math.max(50, newWidth);
+                    bounds.pixelBounds.height = Math.max(50, newHeight);
+                } else {
+                    // Free resize without aspect ratio
+                    let newWidth = resizeStart.bounds.width;
+                    let newHeight = resizeStart.bounds.height;
+                    
+                    if (resizeCorner.includes('e')) newWidth += dx;
+                    if (resizeCorner.includes('w')) newWidth -= dx;
+                    if (resizeCorner.includes('s')) newHeight += dy;
+                    if (resizeCorner.includes('n')) newHeight -= dy;
+                    
+                    bounds.pixelBounds.width = Math.max(50, newWidth);
+                    bounds.pixelBounds.height = Math.max(50, newHeight);
+                }
                 
-                // Update bounds from center
-                bounds.pixelBounds.width = Math.max(50, newWidth);
-                bounds.pixelBounds.height = Math.max(50, newHeight);
+                // Update position from center
                 bounds.pixelBounds.x = centerX - bounds.pixelBounds.width / 2;
                 bounds.pixelBounds.y = centerY - bounds.pixelBounds.height / 2;
                 
