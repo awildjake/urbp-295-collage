@@ -1,30 +1,138 @@
 {
   "overlays": [
     {
-      "id": "overlay_2",
-      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026527/IMG_2_kclew4.jpg",
-      "soundUrl": "https://res.cloudinary.com/do0ehwhde/video/upload/v1771026684/sound3_gzocrq.mp3",
-      "bounds": {
-        "northEast": [37.36844333, -121.87621683],
-        "southWest": [37.36780382, -121.87514395]
-      }
-    },
-    {
-      "id": "overlay_3",
-      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026537/IMG_1_apnf2j.jpg",
-      "soundUrl": "https://res.cloudinary.com/do0ehwhde/video/upload/v1771026684/sound2_kboqo8.mp3",
-      "bounds": {
-        "northEast": [37.36814703, -121.87725753],
-        "southWest": [37.36750752, -121.87618464]
-      }
-    },
-    {
-      "id": "overlay_4",
+      "id": "overlay_5",
       "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026554/IMG_5_impkrw.jpg",
-      "soundUrl": "https://res.cloudinary.com/do0ehwhde/video/upload/v1771026684/sound1_aodzze.mp3",
+      "soundUrl": "",
       "bounds": {
-        "northEast": [37.36865224, -121.87698126],
-        "southWest": [37.36801273, -121.87590837]
+        "northEast": [37.36822874, -121.88140690],
+        "southWest": [37.36730785, -121.87966883]
+      }
+    },
+    {
+      "id": "overlay_6",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026586/IMG_7_famvqv.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36735474, -121.88026428],
+        "southWest": [37.36645089, -121.87855840]
+      }
+    },
+    {
+      "id": "overlay_7",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026587/IMG_10_orlaub.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36742722, -121.88177168],
+        "southWest": [37.36652337, -121.88006580]
+      }
+    },
+    {
+      "id": "overlay_8",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771283679/IMG_2450_mpo4wh.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36581137, -121.87825799],
+        "southWest": [37.36489044, -121.87651992]
+      }
+    },
+    {
+      "id": "overlay_8",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026587/IMG_12_h9z2j4.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36644379, -121.88126206],
+        "southWest": [37.36525569, -121.87901974]
+      }
+    },
+    {
+      "id": "overlay_9",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026590/IMG_8_axwefh.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36643810, -121.87938988],
+        "southWest": [37.36551718, -121.87765181]
+      }
+    },
+    {
+      "id": "overlay_10",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026587/IMG_10_orlaub.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36550439, -121.87895536],
+        "southWest": [37.36458346, -121.87721729]
+      }
+    },
+    {
+      "id": "overlay_11",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026584/IMG_3_h5dhp5.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36541912, -121.88069344],
+        "southWest": [37.36449819, -121.87895536]
+      }
+    },
+    {
+      "id": "overlay_12",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026584/IMG_3_h5dhp5.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36643384, -121.87765718],
+        "southWest": [37.36551292, -121.87591910]
+      }
+    },
+    {
+      "id": "overlay_13",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026587/IMG_12_h9z2j4.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36644379, -121.88126206],
+        "southWest": [37.36525569, -121.87901974]
+      }
+    },
+    {
+      "id": "overlay_14",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026585/IMG_9_jigs8l.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36483928, -121.87775910],
+        "southWest": [37.36391834, -121.87602103]
+      }
+    },
+    {
+      "id": "overlay_15",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026590/IMG_6_dvppyv.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36560174, -121.87652797],
+        "southWest": [37.36455291, -121.87454849]
+      }
+    },
+    {
+      "id": "overlay_16",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771284143/IMG_2464_qy1yxl.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36469005, -121.88019454],
+        "southWest": [37.36338823, -121.87773764]
+      }
+    },
+    {
+      "id": "overlay_17",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771284157/IMG_2435_kzgblq.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36458275, -121.87603176],
+        "southWest": [37.36309901, -121.87478721]
+      }
+    },
+    {
+      "id": "overlay_17",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771284149/IMG_2443_xssgzm.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36656103, -121.88219368],
+        "southWest": [37.36547810, -121.88128531]
       }
     }
   ]

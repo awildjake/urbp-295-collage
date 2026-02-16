@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Georeferencing Tool</title>
+    <title>Image Georeferencing Tool - With Reference Overlays</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -61,6 +61,7 @@
             background: white;
             border: none;
             border-radius: 3px;
+            font-size: 12px;
         }
         
         input[type="number"], input[type="range"] {
@@ -90,6 +91,16 @@
         
         button.danger:hover {
             background: #c0392b;
+        }
+        
+        button.success {
+            background: #27ae60;
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+        
+        button.success:hover {
+            background: #229954;
         }
         
         #map {
@@ -126,6 +137,15 @@
             margin-bottom: 10px;
             border-radius: 3px;
             font-size: 13px;
+        }
+        
+        .reference-info {
+            background: #16a085;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+            font-size: 12px;
         }
         
         /* Image overlay styling */
@@ -169,7 +189,43 @@
         .corner-handle.ne { cursor: ne-resize; }
         .corner-handle.sw { cursor: sw-resize; }
         .corner-handle.se { cursor: se-resize; }
-
+        
+        /* Reference overlays styling */
+        .reference-overlay {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        /* From index.css - for interactive overlays */
+        .custom-overlay-shadow {
+            filter: drop-shadow(2px 2px 2px rgba(212, 217, 101, 0.8));
+            transition: filter 0.3s ease;
+        }
+        
+        .custom-overlay-shadow:hover {
+            filter: drop-shadow(0 0 20px rgba(212, 217, 101, 0.8)) drop-shadow(8px 8px 2px rgba(0, 0, 0, 0.9));
+        }
+        
+        .toggle-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .toggle-section h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #d4d965;
+        }
+        
+        .leaflet-tooltip {
+            background: rgba(212, 217, 101, 0.9);
+            color: black;
+            font-weight: bold;
+            border: 2px solid black;
+            padding: 5px 10px;
+        }
     </style>
 </head>
 <body>
@@ -180,8 +236,12 @@
             <strong>Instructions:</strong> Upload image → Drag to move → Use corners to resize → Rotate → Export
         </div>
         
+        <div class="reference-info">
+            <strong>📍 All Images from index.js Loaded:</strong> The map shows the exact same base as index.html. Position your new image relative to these.
+        </div>
+        
         <div class="control-group">
-            <label>Upload Image:</label>
+            <label>Upload New Image:</label>
             <div class="control-row">
                 <input type="file" id="imageUpload" accept="image/*">
                 <button onclick="removeImage()" class="danger">Remove</button>
@@ -215,141 +275,217 @@
     <div id="map"></div>
     
     <div id="coordinates-output">
-        <button class="copy-button" onclick="exportAndCopy()">📋 Export & Copy Code</button>
+        <button onclick="exportAndCopy()" class="copy-button">📋 Export & Copy Coordinates</button>
     </div>
     
     <!-- Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""></script>
+            crossorigin="">
+    </script>
     
     <script>
-        // Initialize map
-        const map = L.map('map').setView([37.36880615622867, -121.87840187186458], 18);
+        // ===========================================
+        // EXACT COPY FROM INDEX.JS - MAP INITIALIZATION
+        // ===========================================
         
+        // Initialize map
+        const map = L.map('map').setView([37.368567140269306, -121.87689414145946], 18);
+
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri',
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
             maxZoom: 21
         }).addTo(map);
 
+        // Function to load and create overlays from JSON
+        function loadOverlaysFromJSON(jsonUrl, map) {
+            fetch(jsonUrl)
+                .then(response => response.json())
+                .then(data => {
+                    data.overlays.forEach(overlayData => {
+                        createImageOverlay(overlayData, map);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading overlays:', error);
+                });
+        }
+
+        // Constructor function to create individual overlay
+        function createImageOverlay(overlayData, map) {
+            var imageBounds = [
+                overlayData.bounds.northEast,
+                overlayData.bounds.southWest
+            ];
+            
+            var imageOverlay = L.imageOverlay(overlayData.imageUrl, imageBounds, {
+                opacity: 1,
+                interactive: false  // Changed to false for reference
+            }).addTo(map);
+            
+            // Audio removed for tool
+            
+            return imageOverlay;
+        }
+
+        // Usage: Load all overlays
+        loadOverlaysFromJSON('assets/data/overlays.json', map);
+
+        // Function to create an interactive overlay from data
+        function createInteractiveOverlay(overlayData, map) {
+            var imageBounds = [
+                overlayData.bounds.northEast,
+                overlayData.bounds.southWest
+            ];
+            
+            var imageOverlay = L.imageOverlay(overlayData.mapImageUrl, imageBounds, {
+                opacity: 1,
+                interactive: false,  // Changed to false for reference
+                className: 'custom-overlay-shadow'
+            }).addTo(map);
+            
+            // Popup removed for tool
+            
+            return imageOverlay;
+        }
+
+        // Load and create all interactive overlays from JSON
+        function loadInteractiveOverlays(jsonUrl, map) {
+            fetch(jsonUrl)
+                .then(response => response.json())
+                .then(data => {
+                    data.interactiveOverlays.forEach(overlayData => {
+                        createInteractiveOverlay(overlayData, map);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading interactive overlays:', error);
+                });
+        }
+
+        // Load the interactive overlays
+        loadInteractiveOverlays('assets/data/interactive-overlays.json', map);
+
+        var imageUrlInter = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771279957/Picture1_cnopt5.jpg',
+            imageBoundsInter = [[37.37572907, -121.88927114], [37.37307943, -121.88712537]];
+
+        var imageInter = L.imageOverlay(imageUrlInter, imageBoundsInter, {
+            opacity: 1,
+            interactive: false
+        }).addTo(map);
+
+        var imageUrlInter2 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771279962/Picture2_bwyyrm.jpg',
+            imageBoundsInter2 = [[37.37572907, -121.88698537], [37.37307943, -121.88483960]];
+
+        var imageInter2 = L.imageOverlay(imageUrlInter2, imageBoundsInter2, {
+            opacity: 1,
+            interactive: false
+        }).addTo(map);
+
+        var imageUrlInter3 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771279968/Picture3_lakbgv.jpg',
+            imageBoundsInter3 = [[37.37572907, -121.88469960], [37.37307943, -121.88255383]];
+
+        var imageInter3 = L.imageOverlay(imageUrlInter3, imageBoundsInter3, {
+            opacity: 1,
+            interactive: false
+        }).addTo(map);
+
+        var imageUrlInter5 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026586/IMG_7_famvqv.jpg',
+            imageBoundsInter5 = [[37.36816834, -121.88135058], [37.36759989, -121.88027769]];
+
+        var imageUrlInter6 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026586/IMG_7_famvqv.jpg',
+            imageBoundsInter6 = [[37.36735474, -121.88026428], [37.36645089, -121.87855840]];
+
+        // Note: imageInter5 and imageInter6 variables exist but overlays not added to map in original
         
-        // State
-        let currentImage = null;
+        // ===========================================
+        // END OF INDEX.JS CODE
+        // ===========================================
+        
+        // Dummy functions for reference controls (removed for simplicity)
+        function toggleReferenceImages() {
+            // All images from index.js are now part of the base map
+            alert('All images from index.js are loaded. Use opacity slider on your new image.');
+        }
+        
+        function adjustReferenceOpacity(opacity) {
+            // Not applicable - base map images stay at original opacity
+            alert('Base map images maintain their original opacity from index.js');
+        }
+        
+        // NEW IMAGE UPLOAD AND POSITIONING CODE
         let imageContainer = null;
+        let currentImage = null;
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let isResizing = false;
+        let resizeStart = { x: 0, y: 0, bounds: {} };
+        let resizeCorner = null;
         let rotation = 0;
+        
         let bounds = {
-            pixelBounds: { x: 300, y: 200, width: 400, height: 300 },
-            latLngBounds: null
+            pixelBounds: {
+                x: 100,
+                y: 100,
+                width: 300,
+                height: 200
+            }
         };
         
-        // Upload handler
         document.getElementById('imageUpload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
-                    loadImage(event.target.result);
+                    if (imageContainer) {
+                        imageContainer.remove();
+                    }
+                    
+                    currentImage = new Image();
+                    currentImage.src = event.target.result;
+                    
+                    currentImage.onload = function() {
+                        const mapCenter = map.getSize().divideBy(2);
+                        const imageWidth = 300;
+                        const imageHeight = (currentImage.naturalHeight / currentImage.naturalWidth) * imageWidth;
+                        
+                        bounds.pixelBounds = {
+                            x: mapCenter.x - imageWidth / 2,
+                            y: mapCenter.y - imageHeight / 2,
+                            width: imageWidth,
+                            height: imageHeight
+                        };
+                        
+                        imageContainer = document.createElement('div');
+                        imageContainer.className = 'image-overlay-container draggable';
+                        imageContainer.style.position = 'absolute';
+                        imageContainer.style.left = bounds.pixelBounds.x + 'px';
+                        imageContainer.style.top = bounds.pixelBounds.y + 'px';
+                        imageContainer.style.width = bounds.pixelBounds.width + 'px';
+                        imageContainer.style.height = bounds.pixelBounds.height + 'px';
+                        imageContainer.style.zIndex = '500';
+                        imageContainer.style.opacity = '0.8';
+                        imageContainer.style.border = '3px solid #d4d965';
+                        imageContainer.style.boxShadow = '0 0 20px rgba(212, 217, 101, 0.8)';
+                        
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        imageContainer.appendChild(img);
+                        
+                        // Add to map container (NOT overlayPane!)
+                        map.getContainer().appendChild(imageContainer);
+                        
+                        createCornerHandles();
+                        
+                        imageContainer.addEventListener('mousedown', startDrag);
+                    };
                 };
                 reader.readAsDataURL(file);
             }
         });
         
-        function loadImage(dataUrl) {
-            removeImage();
-            
-            currentImage = new Image();
-            currentImage.onload = function() {
-                // Calculate initial size maintaining aspect ratio
-                const imageAspect = currentImage.naturalWidth / currentImage.naturalHeight;
-                
-                // Start with a reasonable width
-                const initialWidth = 400;
-                const initialHeight = initialWidth / imageAspect;
-                
-                // Update bounds with correct aspect ratio
-                bounds.pixelBounds = {
-                    x: 300,
-                    y: 200,
-                    width: initialWidth,
-                    height: initialHeight
-                };
-                
-                createImageOverlay(dataUrl);
-            };
-            currentImage.src = dataUrl;
-        }
-        
-        function createImageOverlay(dataUrl) {
-            // Create container
-            imageContainer = document.createElement('div');
-            imageContainer.className = 'image-overlay-container draggable';
-            imageContainer.style.left = bounds.pixelBounds.x + 'px';
-            imageContainer.style.top = bounds.pixelBounds.y + 'px';
-            imageContainer.style.width = bounds.pixelBounds.width + 'px';
-            imageContainer.style.height = bounds.pixelBounds.height + 'px';
-            imageContainer.style.opacity = document.getElementById('opacitySlider').value;
-            
-            // Add image
-            const img = document.createElement('img');
-            img.src = dataUrl;
-            imageContainer.appendChild(img);
-            
-            // Add to map
-            map.getContainer().appendChild(imageContainer);
-            
-            // Enable dragging
-            enableDragging();
-            
-            // Add corner handles
-            addCornerHandles();
-            
-            updateRotation();
-        }
-        
-        let isDragging = false;
-        let dragStart = { x: 0, y: 0 };
-        
-        function enableDragging() {
-            imageContainer.addEventListener('mousedown', function(e) {
-                if (e.target.classList.contains('corner-handle')) return;
-                
-                isDragging = true;
-                dragStart = {
-                    x: e.clientX - bounds.pixelBounds.x,
-                    y: e.clientY - bounds.pixelBounds.y
-                };
-                
-                map.dragging.disable();
-                e.preventDefault();
-            });
-        }
-        
-        document.addEventListener('mousemove', function(e) {
-            if (isDragging) {
-                bounds.pixelBounds.x = e.clientX - dragStart.x;
-                bounds.pixelBounds.y = e.clientY - dragStart.y;
-                updateImagePosition();
-            }
-        });
-        
-        document.addEventListener('mouseup', function() {
-            if (isDragging) {
-                isDragging = false;
-                map.dragging.enable();
-            }
-        });
-        
-        function updateImagePosition() {
-            if (imageContainer) {
-                imageContainer.style.left = bounds.pixelBounds.x + 'px';
-                imageContainer.style.top = bounds.pixelBounds.y + 'px';
-                updateCornerHandles();
-            }
-        }
-        
-        function addCornerHandles() {
-            const corners = ['nw', 'ne', 'sw', 'se'];
-            corners.forEach(corner => {
+        function createCornerHandles() {
+            ['nw', 'ne', 'sw', 'se'].forEach(corner => {
                 const handle = document.createElement('div');
                 handle.className = 'corner-handle ' + corner;
                 handle.dataset.corner = corner;
@@ -357,7 +493,7 @@
                 
                 handle.addEventListener('mousedown', function(e) {
                     e.stopPropagation();
-                    startCornerDrag(corner, e);
+                    startResize(e, corner);
                 });
             });
             updateCornerHandles();
@@ -367,29 +503,40 @@
             if (!imageContainer) return;
             
             const handles = imageContainer.querySelectorAll('.corner-handle');
+            const width = bounds.pixelBounds.width;
+            const height = bounds.pixelBounds.height;
+            
             handles.forEach(handle => {
                 const corner = handle.dataset.corner;
                 if (corner === 'nw') {
                     handle.style.left = '0px';
                     handle.style.top = '0px';
                 } else if (corner === 'ne') {
-                    handle.style.left = bounds.pixelBounds.width + 'px';
+                    handle.style.left = width + 'px';
                     handle.style.top = '0px';
                 } else if (corner === 'sw') {
                     handle.style.left = '0px';
-                    handle.style.top = bounds.pixelBounds.height + 'px';
+                    handle.style.top = height + 'px';
                 } else if (corner === 'se') {
-                    handle.style.left = bounds.pixelBounds.width + 'px';
-                    handle.style.top = bounds.pixelBounds.height + 'px';
+                    handle.style.left = width + 'px';
+                    handle.style.top = height + 'px';
                 }
             });
         }
         
-        let isResizing = false;
-        let resizeCorner = null;
-        let resizeStart = { x: 0, y: 0, bounds: null };
+        function startDrag(e) {
+            if (e.target.classList.contains('corner-handle')) return;
+            
+            isDragging = true;
+            dragStart = {
+                x: e.clientX - bounds.pixelBounds.x,
+                y: e.clientY - bounds.pixelBounds.y
+            };
+            map.dragging.disable();
+            e.preventDefault();
+        }
         
-        function startCornerDrag(corner, e) {
+        function startResize(e, corner) {
             isResizing = true;
             resizeCorner = corner;
             resizeStart = {
@@ -402,7 +549,15 @@
         }
         
         document.addEventListener('mousemove', function(e) {
-            if (isResizing) {
+            if (isDragging && imageContainer) {
+                bounds.pixelBounds.x = e.clientX - dragStart.x;
+                bounds.pixelBounds.y = e.clientY - dragStart.y;
+                imageContainer.style.left = bounds.pixelBounds.x + 'px';
+                imageContainer.style.top = bounds.pixelBounds.y + 'px';
+                updateCornerHandles();
+            }
+            
+            if (isResizing && imageContainer) {
                 const dx = e.clientX - resizeStart.x;
                 const dy = e.clientY - resizeStart.y;
                 
@@ -412,10 +567,8 @@
                 const preserveAspect = document.getElementById('preserveAspectRatio').checked;
                 
                 if (preserveAspect && currentImage) {
-                    // Calculate aspect ratio from original image
                     const aspectRatio = currentImage.naturalWidth / currentImage.naturalHeight;
                     
-                    // Calculate new size based on corner drag
                     let newWidth = resizeStart.bounds.width;
                     let newHeight = resizeStart.bounds.height;
                     
@@ -424,22 +577,18 @@
                     if (resizeCorner.includes('s')) newHeight += dy;
                     if (resizeCorner.includes('n')) newHeight -= dy;
                     
-                    // Use the larger dimension change to maintain aspect ratio
                     const widthChange = Math.abs(newWidth - resizeStart.bounds.width);
                     const heightChange = Math.abs(newHeight - resizeStart.bounds.height);
                     
                     if (widthChange > heightChange) {
-                        // Width changed more, adjust height to match
                         newHeight = newWidth / aspectRatio;
                     } else {
-                        // Height changed more, adjust width to match
                         newWidth = newHeight * aspectRatio;
                     }
                     
                     bounds.pixelBounds.width = Math.max(50, newWidth);
                     bounds.pixelBounds.height = Math.max(50, newHeight);
                 } else {
-                    // Free resize without aspect ratio
                     let newWidth = resizeStart.bounds.width;
                     let newHeight = resizeStart.bounds.height;
                     
@@ -452,7 +601,6 @@
                     bounds.pixelBounds.height = Math.max(50, newHeight);
                 }
                 
-                // Update position from center
                 bounds.pixelBounds.x = centerX - bounds.pixelBounds.width / 2;
                 bounds.pixelBounds.y = centerY - bounds.pixelBounds.height / 2;
                 
@@ -461,6 +609,10 @@
         });
         
         document.addEventListener('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                map.dragging.enable();
+            }
             if (isResizing) {
                 isResizing = false;
                 resizeCorner = null;
@@ -478,7 +630,6 @@
             }
         }
         
-        // Opacity slider
         document.getElementById('opacitySlider').addEventListener('input', function(e) {
             const opacity = parseFloat(e.target.value);
             document.getElementById('opacityValue').textContent = opacity.toFixed(1);
@@ -487,7 +638,6 @@
             }
         });
         
-        // Rotation slider
         document.getElementById('rotationSlider').addEventListener('input', function(e) {
             rotation = parseFloat(e.target.value);
             document.getElementById('rotationValue').textContent = rotation;
@@ -509,7 +659,6 @@
             currentImage = null;
         }
         
-        // Export and generate code
         async function exportAndCopy() {
             if (!imageContainer || !currentImage) {
                 alert('Please upload an image first');

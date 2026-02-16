@@ -153,6 +153,17 @@ var imageInter3 = L.imageOverlay(imageUrlInter3, imageBoundsInter3, {
     interactive: true
 }).addTo(map);
 
+
+
+
+var imageUrlInter5 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026586/IMG_7_famvqv.jpg',
+    imageBoundsInter5 = [[37.36816834, -121.88135058], [37.36759989, -121.88027769]];
+
+var imageUrlInter6 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026586/IMG_7_famvqv.jpg',
+    imageBoundsInter6 = [[37.36735474, -121.88026428], [37.36645089, -121.87855840]];
+
+
+
 var style = document.createElement('style');
 style.textContent = `
     .collage-image:hover {
