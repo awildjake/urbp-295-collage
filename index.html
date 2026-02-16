@@ -197,54 +197,6 @@
             // Usage: Load all overlays
             loadOverlaysFromJSON('assets/data/overlays.json', map);
 
-            var collageCenter = {
-                lat: 37.36880615622867,
-                lng: -121.87840187186458
-            };
-
-            // Image dimensions: 5472 x 3648 (aspect ratio 1.5:1)
-            var imageSize = {
-                latOffset: 0.0001,  // Height of each image (matching your first image)
-                lngOffset: 0.00015  // Width (1.5x height for correct aspect ratio)
-            };
-
-            // Spread area - how far images can scatter from center
-            var spreadRadius = 0.0006; // Adjust this to control how spread out the collage is
-
-            var imageUrls = [
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026587/IMG_12_h9z2j4.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026590/IMG_6_dvppyv.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026590/IMG_8_axwefh.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026586/IMG_7_famvqv.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026587/IMG_10_orlaub.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026585/IMG_9_jigs8l.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026585/IMG_4_sbjwyp.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026584/IMG_3_h5dhp5.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026554/IMG_5_impkrw.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026537/IMG_1_apnf2j.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026527/IMG_2_kclew4.jpg',
-                'https://res.cloudinary.com/do0ehwhde/image/upload/v1771027135/IMG_11_vj6g0w.jpg'
-            ];
-
-            imageUrls.forEach(function(url, index) {
-                var randomLat = collageCenter.lat + (Math.random() - 0.5) * spreadRadius * 2;
-                var randomLng = collageCenter.lng + (Math.random() - 0.5) * spreadRadius * 2;
-                var randomRotation = Math.random() * 360;
-                
-                var imageBounds = [
-                    [randomLat - imageSize.latOffset, randomLng - imageSize.lngOffset],
-                    [randomLat + imageSize.latOffset, randomLng + imageSize.lngOffset]
-                ];
-                
-                var overlay = L.imageOverlay(url, imageBounds, {
-                    opacity: 1,
-                    interactive: true,
-                    className: 'collage-image'
-                }).addTo(map);
-                
-                var overlayElement = overlay.getElement();
-            });
-
             // Reusable function to create image popup
             function createImagePopup(imageUrl, captionText) {
                 // Create popup container
@@ -352,6 +304,26 @@
                     "Traditional Mexican wares include \"cantaro\" clay pottery and different versions of the Virgin Mary."
                 );
             });
+
+            // Popup 4
+            /*
+            var imageUrlInter7 = '', // Replace with your hosted image URL
+                imageBoundsInter7 = [[37.37092812, -121.88146591], [37.36820387, -121.87829018]];
+
+            var imageInter7 = L.imageOverlay(imageUrlInter7, imageBoundsInter7, {
+                opacity: 1,
+                interactive: true
+            }).addTo(map);
+
+            var imageInter8 = ''
+
+            imageInter7.on('click', function() {
+                createImagePopup(
+                    imageUrlInter8,
+                    "Traditional Mexican wares include \"cantaro\" clay pottery and different versions of the Virgin Mary."
+                );
+            });
+            */
 
             /*
             End of interactive overlay popup images
