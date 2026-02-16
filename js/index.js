@@ -92,91 +92,66 @@ function createImagePopup(imageUrl, captionText) {
     document.body.appendChild(popupContainer);
 }
 
-/*
-Interactive overlay popup images go here
-*/
+// Function to create an interactive overlay from data
+function createInteractiveOverlay(overlayData, map) {
+    var imageBounds = [
+        overlayData.bounds.northEast,
+        overlayData.bounds.southWest
+    ];
+    
+    var imageOverlay = L.imageOverlay(overlayData.mapImageUrl, imageBounds, {
+        opacity: 1,
+        interactive: true,
+        className: 'custom-overlay-shadow'
+    }).addTo(map);
+    
+    imageOverlay.on('click', function() {
+        createImagePopup(overlayData.popupImageUrl, overlayData.caption);
+    });
+    
+    return imageOverlay;
+}
 
-// Popup 1
-var imageUrlInter1 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771268371/Asset_4_drtycr.png',
-    imageBoundsInter1 = [[37.37099065, -121.87870059], [37.37046218, -121.87834110]];
+// Load and create all interactive overlays from JSON
+function loadInteractiveOverlays(jsonUrl, map) {
+    fetch(jsonUrl)
+        .then(response => response.json())
+        .then(data => {
+            data.interactiveOverlays.forEach(overlayData => {
+                createInteractiveOverlay(overlayData, map);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading interactive overlays:', error);
+        });
+}
 
-var imageInter1 = L.imageOverlay(imageUrlInter1, imageBoundsInter1, {
+// Load the interactive overlays
+loadInteractiveOverlays('assets/data/interactive-overlays.json', map);
+
+var imageUrlInter = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771279957/Picture1_cnopt5.jpg',
+    imageBoundsInter = [[37.37572907, -121.88927114], [37.37307943, -121.88712537]];
+
+var imageInter = L.imageOverlay(imageUrlInter, imageBoundsInter, {
     opacity: 1,
-    interactive: true,
-    className: 'custom-overlay-shadow'
+    interactive: true
 }).addTo(map);
 
-var imageUrlInter2 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771269312/IMG_3091_e9pwvl.jpg';
+var imageUrlInter2 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771279962/Picture2_bwyyrm.jpg',
+    imageBoundsInter2 = [[37.37572907, -121.88698537], [37.37307943, -121.88483960]];
 
-imageInter1.on('click', function() {
-    createImagePopup(
-        imageUrlInter2,
-        'North of the Berryessa Flea Market, a mixed use housing complex occupies what was once an additional parking lot for the market.'
-    );
-});
+var imageInter2 = L.imageOverlay(imageUrlInter2, imageBoundsInter2, {
+    opacity: 1,
+    interactive: true
+}).addTo(map);
 
-// Popup 2
-var imageUrlInter3 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771271693/Asset_2_kydax3.png',
-    imageBoundsInter3 = [[37.36953794, -121.87663206], [37.36928326, -121.87634877]];
+var imageUrlInter3 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771279968/Picture3_lakbgv.jpg',
+    imageBoundsInter3 = [[37.37572907, -121.88469960], [37.37307943, -121.88255383]];
 
 var imageInter3 = L.imageOverlay(imageUrlInter3, imageBoundsInter3, {
     opacity: 1,
-    interactive: true,
-    className: 'custom-overlay-shadow'
+    interactive: true
 }).addTo(map);
-
-var imageUrlInter4 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771271713/IMG_3143_l12ze8.jpg';
-
-imageInter3.on('click', function() {
-    createImagePopup(
-        imageUrlInter4,
-        "These hats feature the names of 8 Mexican states, they are adorned in the traditional \"Piteado\" style which typically consists of embroidered leather."
-    );
-});
-
-// Popup 3
-var imageUrlInter5 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771268861/Asset_1_wjwdor.png',
-    imageBoundsInter5 = [[37.36943227, -121.87799916], [37.36889410, -121.87743321]];
-
-var imageInter5 = L.imageOverlay(imageUrlInter5, imageBoundsInter5, {
-    opacity: 1,
-    interactive: true,
-    className: 'custom-overlay-shadow'
-}).addTo(map);
-
-var imageUrlInter6 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771272128/IMG_3155_zjguol.jpg';
-
-imageInter5.on('click', function() {
-    createImagePopup(
-        imageUrlInter6,
-        "Traditional Mexican wares include \"cantaro\" clay pottery and different versions of the Virgin Mary."
-    );
-});
-
-// Popup 4
-/*
-var imageUrlInter7 = '', // Replace with your hosted image URL
-    imageBoundsInter7 = [[37.37092812, -121.88146591], [37.36820387, -121.87829018]];
-
-var imageInter7 = L.imageOverlay(imageUrlInter7, imageBoundsInter7, {
-    opacity: 1,
-    interactive: true,
-    className: 'custom-overlay-shadow'
-}).addTo(map);
-
-var imageInter8 = ''
-
-imageInter7.on('click', function() {
-    createImagePopup(
-        imageUrlInter8,
-        "Traditional Mexican wares include \"cantaro\" clay pottery and different versions of the Virgin Mary."
-    );
-});
-*/
-
-/*
-End of interactive overlay popup images
-*/
 
 var style = document.createElement('style');
 style.textContent = `
@@ -271,6 +246,11 @@ const mapLocations = [
     {
         name: "Overview",
         center: [37.368567140269306, -121.87689414145946],
+        zoom: 18
+    },
+    {
+        name: "Posters",
+        center: [37.37440425, -121.88591249],
         zoom: 18
     },
     {
