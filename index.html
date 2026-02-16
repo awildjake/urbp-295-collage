@@ -38,6 +38,128 @@
             .leaflet-image-layer:hover {
                 z-index: 1000 !important;
             }
+
+            .popup-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.75);
+                z-index: 9999;
+                backdrop-filter: blur(4px);
+                animation: fadeIn 0.2s ease-out;
+            }
+
+            .popup-container {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 0;
+                border-radius: 12px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                z-index: 10000;
+                max-width: 800px;
+                max-height: 90vh;
+                overflow: hidden;
+                animation: slideUp 0.3s ease-out;
+            }
+
+            .popup-close-btn {
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                border: none;
+                background: rgba(255, 255, 255, 0.95);
+                color: #333;
+                font-size: 24px;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                cursor: pointer;
+                line-height: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                transition: all 0.2s ease;
+                z-index: 1;
+                font-weight: 300;
+            }
+
+            .popup-close-btn:hover {
+                background: #f5f5f5;
+                transform: rotate(90deg);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            .popup-close-btn:active {
+                transform: rotate(90deg) scale(0.95);
+            }
+
+            .popup-image {
+                width: 100%;
+                max-height: 70vh;
+                object-fit: contain;
+                display: block;
+                background: #f8f8f8;
+            }
+
+            .popup-caption {
+                margin: 0;
+                padding: 24px 32px;
+                font-size: 15px;
+                line-height: 1.6;
+                color: #444;
+                text-align: left;
+                background: #fafafa;
+                border-top: 1px solid #e5e5e5;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes slideUp {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, -45%);
+                }
+                to {
+                    opacity: 1;
+                    transform: translate(-50%, -50%);
+                }
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .popup-container {
+                    max-width: 95%;
+                    max-height: 95vh;
+                }
+                
+                .popup-caption {
+                    padding: 20px;
+                    font-size: 14px;
+                }
+                
+                .popup-close-btn {
+                    top: 12px;
+                    right: 12px;
+                    width: 32px;
+                    height: 32px;
+                    font-size: 20px;
+                }
+            }
+
         </style>
     </head>
     <body>
@@ -140,6 +262,48 @@
                 var overlayElement = overlay.getElement();
             });
 
+            // Reusable function to create image popup
+            function createImagePopup(imageUrl, captionText) {
+                // Create popup container
+                var popupContainer = document.createElement('div');
+                popupContainer.className = 'popup-container';
+                
+                // Create close button
+                var closeBtn = document.createElement('button');
+                closeBtn.className = 'popup-close-btn';
+                closeBtn.innerHTML = '×';
+                
+                // Create image
+                var img = document.createElement('img');
+                img.className = 'popup-image';
+                img.src = imageUrl;
+                
+                // Create caption
+                var caption = document.createElement('p');
+                caption.className = 'popup-caption';
+                caption.textContent = captionText;
+                
+                // Create overlay background
+                var overlay = document.createElement('div');
+                overlay.className = 'popup-overlay';
+                
+                // Close popup function
+                function closePopup() {
+                    document.body.removeChild(popupContainer);
+                    document.body.removeChild(overlay);
+                }
+                
+                closeBtn.addEventListener('click', closePopup);
+                overlay.addEventListener('click', closePopup);
+                
+                // Assemble and add to page
+                popupContainer.appendChild(closeBtn);
+                popupContainer.appendChild(img);
+                popupContainer.appendChild(caption);
+                document.body.appendChild(overlay);
+                document.body.appendChild(popupContainer);
+            }
+
 
             var imageUrlInter1 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771268371/Asset_4_drtycr.png', // Replace with your original image URL
                 imageBoundsInter1 = [[37.37099065, -121.87870059], [37.37046218, -121.87834110]];
@@ -149,22 +313,13 @@
                 interactive: true
             }).addTo(map);
 
-            var imageUrlInter2 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771268861/Asset_1_wjwdor.png', // Replace with your original image URL
-                imageBoundsInter2 = [[37.37277052, -121.87955618], [37.37073014, -121.87741041]];
-            var imageInter2 = null;
+            var imageUrlInter2 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771269312/IMG_3091_e9pwvl.jpg';
 
             imageInter1.on('click', function() {
-                if (imageInter2) {
-                    // If imageInter2 exists, remove it
-                    map.removeLayer(imageInter2);
-                    imageInter2 = null;
-                } else {
-                    // If imageInter2 doesn't exist, create and add it
-                    imageInter2 = L.imageOverlay(imageUrlInter2, imageBoundsInter2, {
-                        opacity: 1,
-                        interactive: true
-                    }).addTo(map);
-                }
+                createImagePopup(
+                    imageUrlInter2,
+                    'North of the Berryessa Flea Market, a mixed use housing complex occupies what was once an additional parking lot for the market.'
+                );
             });
 
             var style = document.createElement('style');
