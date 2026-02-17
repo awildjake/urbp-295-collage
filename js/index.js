@@ -1,6 +1,9 @@
 // Initialize map
 const map = L.map('map').setView([37.368567140269306, -121.87689414145946], 18);
 
+map.createPane('trackPane');
+map.getPane('trackPane').style.zIndex = 200; // overlayPane default is 400
+
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
     maxZoom: 21
