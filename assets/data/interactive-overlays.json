@@ -29,6 +29,16 @@
       },
       "popupImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771272128/IMG_3155_zjguol.jpg",
       "caption": "Traditional Mexican wares include \"cantaro\" clay pottery and different versions of the Virgin Mary."
+    },
+    {
+      "id": "t-shirts",
+      "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771288122/Artboard_1_nfq1qk.png",
+      "bounds": {
+        "northEast": [37.37007260, -121.87708586],
+        "southWest": [37.36959162, -121.87630266]
+      },
+      "popupImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771288125/IMG_3145_l9ov4m.jpg",
+      "caption": "Screen printed t-shirts feature famous Chicano and Mexican characters and heroes. This includes folk singer Chalino Sanchez, \"El Bob\" from the movie La Bamba, and \"Homies\" characters."
     }
   ]
 }
