@@ -37,7 +37,7 @@
       }
     },
     {
-      "id": "overlay_8",
+      "id": "overlay_8b",
       "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026587/IMG_12_h9z2j4.jpg",
       "soundUrl": "",
       "bounds": {
@@ -127,21 +127,12 @@
       }
     },
     {
-      "id": "overlay_17",
+      "id": "overlay_18",
       "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771284149/IMG_2443_xssgzm.jpg",
       "soundUrl": "",
       "bounds": {
         "northEast": [37.36656103, -121.88219368],
         "southWest": [37.36547810, -121.88128531]
-      }
-    },
-    {
-      "id": "overlay_18",
-      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771287023/Picture6_gs6iuk.jpg",
-      "soundUrl": "",
-      "bounds": {
-        "northEast": [37.37286549, -121.88837528],
-        "southWest": [37.37064628, -121.88326836]
       }
     }
   ]
