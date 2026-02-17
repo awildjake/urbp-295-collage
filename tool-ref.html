@@ -723,7 +723,16 @@
                 const se = map.containerPointToLatLng([seX, seY]);
                 
                 // Generate code
-                const code = `[[${nw.lat.toFixed(8)}, ${nw.lng.toFixed(8)}], [${se.lat.toFixed(8)}, ${se.lng.toFixed(8)}]]`;
+                const obj = {
+                id: "",
+                imageUrl: "",
+                soundUrl: "",
+                bounds: {
+                    northEast: [parseFloat(nw.lat.toFixed(8)), parseFloat(nw.lng.toFixed(8))],
+                    southWest: [parseFloat(se.lat.toFixed(8)), parseFloat(se.lng.toFixed(8))]
+                }
+                };
+                const code = JSON.stringify(obj, null, 2);
                 
                 // Copy to clipboard
                 await navigator.clipboard.writeText(code);
@@ -754,7 +763,16 @@
                 ]);
                 
                 // Generate code
-                const code = `[[${nw.lat.toFixed(8)}, ${nw.lng.toFixed(8)}], [${se.lat.toFixed(8)}, ${se.lng.toFixed(8)}]]`;
+                const obj = {
+                id: "",
+                imageUrl: "",
+                soundUrl: "",
+                bounds: {
+                    northEast: [parseFloat(nw.lat.toFixed(8)), parseFloat(nw.lng.toFixed(8))],
+                    southWest: [parseFloat(se.lat.toFixed(8)), parseFloat(se.lng.toFixed(8))]
+                }
+                };
+                const code = JSON.stringify(obj, null, 2);
                 
                 // Copy to clipboard
                 await navigator.clipboard.writeText(code);

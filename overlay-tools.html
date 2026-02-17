@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overlay Tools</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e0f;
+    --surface: #1a1a1c;
+    --border: #2e2e32;
+    --accent: #c8f060;
+    --text: #e8e8e8;
+    --muted: #666;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  h1 {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s, border-color 0.15s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .pane { display: none; }
+  .pane.active { display: block; }
+
+  /* Shared */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+  }
+
+  .panel-title {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .field { margin-bottom: 1rem; }
+
+  label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+    letter-spacing: 0.05em;
+  }
+
+  input[type="number"],
+  input[type="text"] {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    padding: 0.5rem 0.6rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  input:focus { border-color: var(--accent); }
+
+  textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    padding: 0.75rem;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  textarea:focus { border-color: var(--accent); }
+
+  .row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.25rem 0;
+  }
+
+  button.primary {
+    width: 100%;
+    background: var(--accent);
+    color: #0e0e0f;
+    border: none;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    margin-top: 0.5rem;
+  }
+
+  button.primary:hover { opacity: 0.85; }
+
+  button.copy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  button.copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── Grid Generator ── */
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 1.5rem;
+    max-width: 1100px;
+  }
+
+  .coords-group { margin-bottom: 1rem; }
+
+  .coords-group-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .calc-info {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+    white-space: pre;
+  }
+
+  .calc-info span { color: var(--accent); }
+
+  .output-panel { display: flex; flex-direction: column; }
+
+  .output-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .grid-viz {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .grid-cell {
+    width: 24px;
+    height: 16px;
+    background: var(--border);
+    border: 1px solid #3a3a3e;
+    font-family: var(--mono);
+    font-size: 0.45rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+  }
+
+  .grid-cell.origin { background: var(--accent); color: #0e0e0f; border-color: var(--accent); }
+  .grid-cell.generated { background: #2a3a1a; border-color: #4a6a2a; color: #8ab840; }
+
+  pre {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    line-height: 1.7;
+    color: #ccc;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    overflow: auto;
+    flex: 1;
+    white-space: pre;
+  }
+
+  .key { color: #7ec8e3; }
+  .str { color: #c8f060; }
+  .num { color: #f0a060; }
+
+  .empty-state {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+    letter-spacing: 0.05em;
+    min-height: 120px;
+  }
+
+  /* ── Bounds → Location ── */
+  .loc-layout {
+    max-width: 560px;
+  }
+
+  .loc-output {
+    margin-top: 0.5rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    line-height: 1.8;
+    min-height: 60px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    white-space: pre;
+    color: var(--muted);
+  }
+
+  .loc-output:hover { border-color: #444; }
+  .loc-output.has-result { color: var(--accent); }
+  .loc-output.copied { border-color: var(--accent); }
+
+  .hint {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: #444;
+    margin-top: 0.4rem;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<h1>Overlay Tools</h1>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('grid', this)">Grid Generator</button>
+  <button class="tab" onclick="switchTab('loc', this)">Bounds → Location</button>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 1: Grid Generator                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="pane active" id="pane-grid">
+  <div class="grid-layout">
+    <div class="panel">
+      <div class="panel-title">Origin Bounds</div>
+
+      <div class="coords-group">
+        <div class="coords-group-label">northEast</div>
+        <div class="row2">
+          <div class="field"><label>lat</label><input type="number" id="ne-lat" step="any" value="37.36003497"></div>
+          <div class="field"><label>lng</label><input type="number" id="ne-lng" step="any" value="-121.85926795"></div>
+        </div>
+      </div>
+
+      <div class="coords-group">
+        <div class="coords-group-label">southWest</div>
+        <div class="row2">
+          <div class="field"><label>lat</label><input type="number" id="sw-lat" step="any" value="37.35639889"></div>
+          <div class="field"><label>lng</label><input type="number" id="sw-lng" step="any" value="-121.85113549"></div>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <div class="panel-title">Grid Settings</div>
+
+      <div class="row2">
+        <div class="field"><label>columns</label><input type="number" id="cols" min="1" max="20" value="3"></div>
+        <div class="field"><label>rows</label><input type="number" id="rows" min="1" max="20" value="4"></div>
+      </div>
+
+      <div class="field"><label>gap (degrees)</label><input type="number" id="gap" step="any" value="0.00005"></div>
+      <div class="field"><label>id prefix</label><input type="text" id="prefix" value="timeline"></div>
+      <div class="field"><label>start index</label><input type="number" id="startIndex" value="2"></div>
+
+      <hr class="divider">
+      <div class="calc-info" id="calc-info">—</div>
+      <button class="primary" onclick="generate()">Generate Grid</button>
+    </div>
+
+    <div class="panel output-panel">
+      <div class="output-header">
+        <div class="panel-title" style="margin:0">Output</div>
+        <button class="copy-btn" onclick="copyGrid()">Copy JSON</button>
+      </div>
+      <div class="grid-viz" id="grid-viz"></div>
+      <div id="grid-output" class="empty-state">fill in bounds and click generate</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 2: Bounds → Location                    -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="pane" id="pane-loc">
+  <div class="loc-layout">
+    <div class="panel">
+      <div class="panel-title">Paste Overlay JSON</div>
+      <textarea id="loc-input" rows="10" placeholder="Paste overlay object here..." spellcheck="false"></textarea>
+
+      <hr class="divider">
+
+      <div class="row2">
+        <div class="field"><label>location name</label><input type="text" id="loc-name" placeholder="e.g. Timeline 1"></div>
+        <div class="field"><label>zoom</label><input type="number" id="loc-zoom" value="18" min="1" max="22"></div>
+      </div>
+
+      <div class="loc-output" id="loc-output" onclick="copyLoc()">paste JSON above to generate</div>
+      <div class="hint">click output to copy</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Tab switching ──────────────────────────────
+  function switchTab(id, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('pane-' + id).classList.add('active');
+  }
+
+  // ── Grid Generator ─────────────────────────────
+  document.querySelectorAll('#pane-grid input').forEach(el => el.addEventListener('input', updateCalcInfo));
+
+  function getGridVals() {
+    return {
+      neLat: parseFloat(document.getElementById('ne-lat').value),
+      neLng: parseFloat(document.getElementById('ne-lng').value),
+      swLat: parseFloat(document.getElementById('sw-lat').value),
+      swLng: parseFloat(document.getElementById('sw-lng').value),
+      cols:  parseInt(document.getElementById('cols').value),
+      rows:  parseInt(document.getElementById('rows').value),
+      gap:   parseFloat(document.getElementById('gap').value),
+      prefix: document.getElementById('prefix').value || 'overlay',
+      startIndex: parseInt(document.getElementById('startIndex').value)
+    };
+  }
+
+  function updateCalcInfo() {
+    const v = getGridVals();
+    if (isNaN(v.neLat) || isNaN(v.swLat)) return;
+    const w = (v.neLng - v.swLng).toFixed(8);
+    const h = (v.neLat - v.swLat).toFixed(8);
+    const colStep = (parseFloat(w) + v.gap).toFixed(8);
+    const rowStep = (parseFloat(h) + v.gap).toFixed(8);
+    document.getElementById('calc-info').innerHTML =
+      `width    <span>${w}°</span>\n` +
+      `height   <span>${h}°</span>\n` +
+      `col step <span>+${colStep}°</span>\n` +
+      `row step <span>-${rowStep}°</span>`;
+  }
+
+  updateCalcInfo();
+
+  function buildGridResults() {
+    const v = getGridVals();
+    const width = v.neLng - v.swLng;
+    const height = v.neLat - v.swLat;
+    const colStep = width + v.gap;
+    const rowStep = height + v.gap;
+    const results = [];
+    for (let row = 0; row < v.rows; row++) {
+      for (let col = 0; col < v.cols; col++) {
+        if (row === 0 && col === 0) continue;
+        const idx = v.startIndex + (row * v.cols + col) - 1;
+        results.push({
+          id: `${v.prefix}${idx}`,
+          imageUrl: "", soundUrl: "",
+          bounds: {
+            northEast: [+(v.neLat - row * rowStep).toFixed(8), +(v.neLng + col * colStep).toFixed(8)],
+            southWest: [+(v.swLat - row * rowStep).toFixed(8), +(v.swLng + col * colStep).toFixed(8)]
+          }
+        });
+      }
+    }
+    return results;
+  }
+
+  function generate() {
+    const v = getGridVals();
+    const results = buildGridResults();
+
+    // viz
+    const viz = document.getElementById('grid-viz');
+    viz.innerHTML = '';
+    for (let r = 0; r < v.rows; r++) {
+      for (let c = 0; c < v.cols; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'grid-cell ' + (r === 0 && c === 0 ? 'origin' : 'generated');
+        if (r === 0 && c === 0) cell.textContent = '1';
+        viz.appendChild(cell);
+      }
+    }
+
+    // output
+    const area = document.getElementById('grid-output');
+    if (!results.length) { area.className = 'empty-state'; area.textContent = 'no items'; return; }
+    area.className = '';
+    area.innerHTML = '';
+    const pre = document.createElement('pre');
+    pre.innerHTML = results.map(r => syntaxHighlight(r)).join(',\n');
+    area.appendChild(pre);
+    updateCalcInfo();
+  }
+
+  function syntaxHighlight(obj) {
+    return JSON.stringify(obj, null, 2).replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+      m => {
+        if (/^"/.test(m)) return /:$/.test(m) ? `<span class="key">${m}</span>` : `<span class="str">${m}</span>`;
+        return `<span class="num">${m}</span>`;
+      }
+    );
+  }
+
+  function copyGrid() {
+    const results = buildGridResults();
+    navigator.clipboard.writeText(JSON.stringify(results, null, 2)).then(() => {
+      const btn = document.querySelector('#pane-grid .copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy JSON', 1500);
+    });
+  }
+
+  // ── Bounds → Location ─────────────────────────
+  ['loc-input', 'loc-name', 'loc-zoom'].forEach(id =>
+    document.getElementById(id).addEventListener('input', convertLoc)
+  );
+
+  function convertLoc() {
+    const raw = document.getElementById('loc-input').value.trim();
+    const out = document.getElementById('loc-output');
+    if (!raw) { out.textContent = 'paste JSON above to generate'; out.className = 'loc-output'; return; }
+    try {
+      const obj = JSON.parse(raw.replace(/,\s*$/, ''));
+      const ne = obj.bounds.northEast;
+      const sw = obj.bounds.southWest;
+      const lat = ((ne[0] + sw[0]) / 2).toFixed(8);
+      const lng = ((ne[1] + sw[1]) / 2).toFixed(8);
+      const name = document.getElementById('loc-name').value || obj.id || 'Location';
+      const zoom = parseInt(document.getElementById('loc-zoom').value) || 18;
+      out.textContent = `    {\n        name: "${name}",\n        center: [${lat}, ${lng}],\n        zoom: ${zoom}\n    }`;
+      out.className = 'loc-output has-result';
+    } catch(e) {
+      out.textContent = 'invalid json';
+      out.className = 'loc-output';
+    }
+  }
+
+  function copyLoc() {
+    const out = document.getElementById('loc-output');
+    if (!out.classList.contains('has-result')) return;
+    navigator.clipboard.writeText(out.textContent).then(() => {
+      out.className = 'loc-output has-result copied';
+      setTimeout(() => out.className = 'loc-output has-result', 1000);
+    });
+  }
+</script>
+</body>
+</html>

@@ -253,10 +253,74 @@ document.getElementById('volumeSlider').addEventListener('input', function(e) {
 });
 
 // Define your locations array (customize these!)
+/*
+The center point of an image is calculate by averaging the northEast and southWest
+lat and long.
+
+lat: (37.36003497 + 37.35639889) / 2 = 37.35821693
+lng: (-121.85926795 + -121.85113549) / 2 = -121.85520172
+
+To make a grid of images:
+
+newNorthEast.lat = prevNorthEast.lat - gap
+gap = width + spacing = 0.00813246 + 0.00005 = 0.00818246
+width = northEast.lng - southWest.lng
+
+*/
 const mapLocations = [
     {
         name: "Overview",
         center: [37.368567140269306, -121.87689414145946],
+        zoom: 18
+    },
+    {
+        name: "Timeline 1",
+        center: [37.35821693, -121.85520172],
+        zoom: 18
+    },
+    {
+        name: "timeline2",
+        center: [37.35821693, -121.84651680],
+        zoom: 18
+    },
+    {
+        name: "timeline3",
+        center: [37.35821693, -121.83783188],
+        zoom: 18
+    },
+    {
+        name: "timeline4",
+        center: [37.35408085, -121.85520172],
+        zoom: 18
+    },
+    {
+        name: "timeline5",
+        center: [37.35408085, -121.84651680],
+        zoom: 18
+    },
+    {
+        name: "timeline6",
+        center: [37.35408085, -121.83783188],
+        zoom: 18
+    },
+    {
+        name: "timeline7",
+        center: [37.34994477, -121.85520172],
+        zoom: 18
+    },
+    {
+        name: "timeline8",
+        center: [37.34994477, -121.84651680],
+        zoom: 18
+    },
+    {
+        name: "timeline9",
+        center: [37.34994477, -121.83783188],
+        zoom: 18
+    },
+    {
+        name: "timeline10",
+        center: [37.34580869, -121.85520172],
         zoom: 18
     },
     {

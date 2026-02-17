@@ -134,6 +134,102 @@
         "northEast": [37.36656103, -121.88219368],
         "southWest": [37.36547810, -121.88128531]
       }
+    },
+    {
+      "id": "timeline1",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356981/Slide1_i0sybx.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36003497,
+          -121.85926795
+        ],
+        "southWest": [
+          37.35639889,
+          -121.85113549
+        ]
+      }
+    },
+    {
+      "id": "timeline2",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356982/Slide2_ec8urs.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36003497, -121.85058303],
+        "southWest": [37.35639889, -121.84245057]
+      }
+    },
+    {
+      "id": "timeline3",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356980/Slide3_rfv7rk.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.36003497, -121.84189811],
+        "southWest": [37.35639889, -121.83376565]
+      }
+    },
+    {
+      "id": "timeline4",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356981/Slide4_xsaiai.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.35589889, -121.85926795],
+        "southWest": [37.35226281, -121.85113549]
+      }
+    },
+    {
+      "id": "timeline5",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356980/Slide5_gusngr.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.35589889, -121.85058303],
+        "southWest": [37.35226281, -121.84245057]
+      }
+    },
+    {
+      "id": "timeline6",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356981/Slide6_mbmlme.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.35589889, -121.84189811],
+        "southWest": [37.35226281, -121.83376565]
+      }
+    },
+    {
+      "id": "timeline7",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356980/Slide7_i8b8hj.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.35176281, -121.85926795],
+        "southWest": [37.34812673, -121.85113549]
+      }
+    },
+    {
+      "id": "timeline8",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356980/Slide8_fihcjm.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.35176281, -121.85058303],
+        "southWest": [37.34812673, -121.84245057]
+      }
+    },
+    {
+      "id": "timeline9",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356981/Slide9_mnntf5.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.35176281, -121.84189811],
+        "southWest": [37.34812673, -121.83376565]
+      }
+    },
+    {
+      "id": "timeline10",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356980/Slide10_yvmern.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [37.34762673, -121.85926795],
+        "southWest": [37.34399065, -121.85113549]
+      }
     }
   ]
 }
