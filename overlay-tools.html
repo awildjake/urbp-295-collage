@@ -507,7 +507,7 @@
       const lng = ((ne[1] + sw[1]) / 2).toFixed(8);
       const name = document.getElementById('loc-name').value || obj.id || 'Location';
       const zoom = parseInt(document.getElementById('loc-zoom').value) || 18;
-      out.textContent = `    {\n        name: "${name}",\n        center: [${lat}, ${lng}],\n        zoom: ${zoom}\n    }`;
+      out.textContent = `    {\n        "name": "${name}",\n        "center": [${lat}, ${lng}],\n        "zoom": ${zoom}\n    }`;
       out.className = 'loc-output has-result';
     } catch(e) {
       out.textContent = 'invalid json';
