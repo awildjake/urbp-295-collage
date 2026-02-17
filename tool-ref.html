@@ -735,6 +735,7 @@
                 link.click();
                 
                 // Show success
+                alert('Coordinates copied to clipboard!');
                 const button = event.target;
                 const originalText = button.textContent;
                 button.textContent = '✓ Exported & Copied!';
@@ -759,6 +760,7 @@
                 await navigator.clipboard.writeText(code);
                 
                 // Show success (no download)
+                alert('Coordinates copied to clipboard!');
                 const button = event.target;
                 const originalText = button.textContent;
                 button.textContent = '✓ Code Copied!';
