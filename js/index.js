@@ -252,105 +252,9 @@ document.getElementById('volumeSlider').addEventListener('input', function(e) {
     document.getElementById('volumeValue').textContent = e.target.value + '%';
 });
 
-// Define your locations array (customize these!)
-/*
-The center point of an image is calculate by averaging the northEast and southWest
-lat and long.
-
-lat: (37.36003497 + 37.35639889) / 2 = 37.35821693
-lng: (-121.85926795 + -121.85113549) / 2 = -121.85520172
-
-To make a grid of images:
-
-newNorthEast.lat = prevNorthEast.lat - gap
-gap = width + spacing = 0.00813246 + 0.00005 = 0.00818246
-width = northEast.lng - southWest.lng
-
-*/
-const mapLocations = [
-    {
-        name: "Overview",
-        center: [37.368567140269306, -121.87689414145946],
-        zoom: 18
-    },
-    {
-        name: "Timeline 1",
-        center: [37.35821693, -121.85520172],
-        zoom: 18
-    },
-    {
-        name: "timeline2",
-        center: [37.35821693, -121.84651680],
-        zoom: 18
-    },
-    {
-        name: "timeline3",
-        center: [37.35821693, -121.83783188],
-        zoom: 18
-    },
-    {
-        name: "timeline4",
-        center: [37.35408085, -121.85520172],
-        zoom: 18
-    },
-    {
-        name: "timeline5",
-        center: [37.35408085, -121.84651680],
-        zoom: 18
-    },
-    {
-        name: "timeline6",
-        center: [37.35408085, -121.83783188],
-        zoom: 18
-    },
-    {
-        name: "timeline7",
-        center: [37.34994477, -121.85520172],
-        zoom: 18
-    },
-    {
-        name: "timeline8",
-        center: [37.34994477, -121.84651680],
-        zoom: 18
-    },
-    {
-        name: "timeline9",
-        center: [37.34994477, -121.83783188],
-        zoom: 18
-    },
-    {
-        name: "timeline10",
-        center: [37.34580869, -121.85520172],
-        zoom: 18
-    },
-    {
-        name: "Posters",
-        center: [37.37440425, -121.88591249],
-        zoom: 18
-    },
-    {
-        name: "North Housing Complex",
-        center: [37.37072641, -121.87852084],
-        zoom: 20
-    },
-    {
-        name: "Hat Vendor",
-        center: [37.36940560, -121.87649041],
-        zoom: 21
-    },
-    {
-        name: "Traditional Wares",
-        center: [37.36916318, -121.87771618],
-        zoom: 20
-    },
-    {
-        name: "Full Market View",
-        center: [37.36956549, -121.87987804],
-        zoom: 17
-    }
-];
 
 // Navigation state
+let mapLocations = [];
 let currentLocationIndex = 0;
 
 // Create Leaflet-style Navigation Control
@@ -402,9 +306,8 @@ L.Control.Navigation = L.Control.extend({
     }
 });
 
-// Add navigation control to map
+// Create navigation control (don't add to map yet)
 var navigationControl = new L.Control.Navigation({ position: 'bottomleft' });
-navigationControl.addTo(map);
 
 // Function to navigate to a specific location
 function navigateToLocation(index) {
@@ -413,29 +316,14 @@ function navigateToLocation(index) {
     currentLocationIndex = index;
     const location = mapLocations[index];
     
-    // Animate map to new location
     map.flyTo(location.center, location.zoom, {
         duration: 1.5,
         easeLinearity: 0.25
     });
     
-    // Update navigation control
     navigationControl.updateCounter(index);
     navigationControl.updateButtons(index);
 }
-
-// Button click handlers
-L.DomEvent.on(navigationControl._prevButton, 'click', function() {
-    if (currentLocationIndex > 0) {
-        navigateToLocation(currentLocationIndex - 1);
-    }
-});
-
-L.DomEvent.on(navigationControl._nextButton, 'click', function() {
-    if (currentLocationIndex < mapLocations.length - 1) {
-        navigateToLocation(currentLocationIndex + 1);
-    }
-});
 
 // Keyboard navigation
 document.addEventListener('keydown', (e) => {
@@ -452,5 +340,26 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Initialize navigation
-navigateToLocation(0);
+// Load locations and initialize navigation
+fetch('assets/data/locations.json')
+    .then(res => res.json())
+    .then(data => {
+        mapLocations = data;
+        navigationControl.addTo(map);
+
+        // Button click handlers moved here so _prevButton/_nextButton exist
+        L.DomEvent.on(navigationControl._prevButton, 'click', function() {
+            if (currentLocationIndex > 0) {
+                navigateToLocation(currentLocationIndex - 1);
+            }
+        });
+
+        L.DomEvent.on(navigationControl._nextButton, 'click', function() {
+            if (currentLocationIndex < mapLocations.length - 1) {
+                navigateToLocation(currentLocationIndex + 1);
+            }
+        });
+
+        navigateToLocation(0);
+    })
+    .catch(err => console.error('Failed to load locations.json:', err));
