@@ -230,6 +230,21 @@
         "northEast": [37.34762673, -121.85926795],
         "southWest": [37.34399065, -121.85113549]
       }
-    }
+    },
+    {
+  "id": "example_image",
+  "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771356981/Slide4_xsaiai.jpg",
+  "soundUrl": "",
+  "bounds": {
+    "northEast": [
+      37.36840869,
+      -121.87753916
+    ],
+    "southWest": [
+      37.36707531,
+      -121.87455654
+    ]
+  }
+}
   ]
 }
