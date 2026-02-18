@@ -428,7 +428,6 @@ timelineOverlay.addEventListener('click', closeTimeline); // click backdrop to c
 
 // ── Marker ────────────────────────────────────────────────────────────────────
 var timelineMarker = L.marker([37.37022337, -121.88035548])
-    .addTo(map)
-    .on('click', openTimeline);
+    .addTo(map).on('click', openTimeline);
 
     
