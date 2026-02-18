@@ -23,6 +23,9 @@ function loadOverlaysFromJSON(jsonUrl, map) {
         });
 }
 
+// Create a single shared layer group for all overlays
+var overlayLayer = L.layerGroup();
+
 // Constructor function to create individual overlay
 function createImageOverlay(overlayData, map) {
     var imageBounds = [
@@ -33,11 +36,18 @@ function createImageOverlay(overlayData, map) {
     var imageOverlay = L.imageOverlay(overlayData.imageUrl, imageBounds, {
         opacity: 1,
         interactive: true
-    }).addTo(map);
+    });
     
     imageOverlay.on('click', function() {
         playAudioWithFade(overlayData.soundUrl);
     });
+
+    overlayLayer.addLayer(imageOverlay);
+
+    // Add the layer group to the map if not already added
+    if (!map.hasLayer(overlayLayer)) {
+        overlayLayer.addTo(map);
+    }
     
     return imageOverlay;
 }
@@ -95,6 +105,9 @@ function createImagePopup(imageUrl, captionText) {
     document.body.appendChild(popupContainer);
 }
 
+// Create a single shared layer group for all interactive overlays
+var interactiveOverlayLayer = L.layerGroup();
+
 // Function to create an interactive overlay from data
 function createInteractiveOverlay(overlayData, map) {
     var imageBounds = [
@@ -106,12 +119,18 @@ function createInteractiveOverlay(overlayData, map) {
         opacity: 1,
         interactive: true,
         className: 'custom-overlay-shadow'
-    }).addTo(map);
+    });
     
     imageOverlay.on('click', function() {
         createImagePopup(overlayData.popupImageUrl, overlayData.caption);
     });
     
+    interactiveOverlayLayer.addLayer(imageOverlay);
+
+    if (!map.hasLayer(interactiveOverlayLayer)) {
+        interactiveOverlayLayer.addTo(map);
+    }
+
     return imageOverlay;
 }
 
@@ -366,3 +385,10 @@ fetch('assets/data/locations.json')
         navigateToLocation(0);
     })
     .catch(err => console.error('Failed to load locations.json:', err));
+
+var layerControls = {
+    "Static Overlays": overlayLayer,
+    "Interactive Overlays": interactiveOverlayLayer
+};
+
+L.control.layers(null, layerControls).addTo(map);
