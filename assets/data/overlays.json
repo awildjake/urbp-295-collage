@@ -1,6 +1,21 @@
 {
   "overlays": [
     {
+      "id": "base",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771441317/market_observation_map_cejhlw.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37022337,
+          -121.88035548
+        ],
+        "southWest": [
+          37.36604078,
+          -121.87311351
+        ]
+      }
+    },
+    {
       "id": "overlay_5",
       "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026554/IMG_5_impkrw.jpg",
       "soundUrl": "",

@@ -39,6 +39,16 @@
       },
       "popupImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771288125/IMG_3145_l9ov4m.jpg",
       "caption": "Screen printed t-shirts feature famous Chicano and Mexican characters and heroes. This includes folk singer Chalino Sanchez, \"El Bob\" from the movie La Bamba, and \"Homies\" characters."
+    },
+    {
+      "id": "timeline10",
+      "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771440658/26ec8c20-4be8-498d-9f3b-0a0eeeff9fb6_a1aymd.jpg",
+      "bounds": {
+        "northEast": [37.36914484, -121.87867329],
+        "southWest": [37.36900484, -121.87853605]
+      },
+      "popupImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771440658/26ec8c20-4be8-498d-9f3b-0a0eeeff9fb6_a1aymd.jpg",
+      "caption": "Screen printed t-shirts feature famous Chicano and Mexican characters and heroes. This includes folk singer Chalino Sanchez, \"El Bob\" from the movie La Bamba, and \"Homies\" characters."
     }
   ]
 }

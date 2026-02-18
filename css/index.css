@@ -23,11 +23,11 @@ body {
     font-weight: bold;
 }
 
-/* Applies to all image overlays. Moves image to very front (z-index). */
+/* Applies to all image overlays. Moves image to very front (z-index). 
 .leaflet-image-layer:hover {
     z-index: 1000 !important;
 }
-
+*/
 /* Applies to only images with overlay popups. Moves image to very front (z-index). */
 .custom-overlay-shadow {
     filter: drop-shadow(2px 2px 2px rgba(212, 217, 101, 0.8));
