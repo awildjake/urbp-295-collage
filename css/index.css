@@ -32,10 +32,12 @@ body {
 .custom-overlay-shadow {
     filter: drop-shadow(2px 2px 2px rgba(212, 217, 101, 0.8));
     transition: filter 0.3s ease;
+    transform: rotate(-1.5deg);
 }
 
 .custom-overlay-shadow:hover {
     filter: drop-shadow(0 0 20px rgba(212, 217, 101, 0.8)) drop-shadow(8px 8px 2px rgba(0, 0, 0, 0.9));
+    transform: rotate(0deg) scale(1.02);    /* straightens on hover */
 }
 
 /* Defines overlay popup styles. */
@@ -198,4 +200,59 @@ body {
     font-weight: bold;
     color: #333;
     border-right: 1px solid #ccc;
+}
+
+#timeline-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+#timeline-overlay.active {
+    display: block;
+}
+
+#timeline-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85vw;
+    height: 75vh;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    overflow: hidden;
+}
+
+#timeline-popup.active {
+    display: block;
+}
+
+#timeline-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+#timeline-close:hover {
+    background: rgba(0, 0, 0, 0.9);
 }

@@ -392,3 +392,43 @@ var layerControls = {
 };
 
 L.control.layers(null, layerControls).addTo(map);
+
+// ── Timeline Popup ────────────────────────────────────────────────────────────
+
+// Create the overlay and popup elements and add to the page
+var timelineOverlay = document.createElement('div');
+timelineOverlay.id = 'timeline-overlay';
+document.body.appendChild(timelineOverlay);
+
+var timelinePopup = document.createElement('div');
+timelinePopup.id = 'timeline-popup';
+timelinePopup.innerHTML = `
+    <button id="timeline-close">✕</button>
+    <iframe 
+        src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vTbDKn39-sYNOPZWwXFyUWHf5C7R8eTznAKUFD422CxmmLrsvP3eZznIjTWKtHONIStgTGfkFVR-SUa&amp;font=Default&amp;lang=en&amp;initial_zoom=2&amp;width=100%25&amp;height=650'
+        width='100%' 
+        height='100%'
+        webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'>
+    </iframe>
+`;
+document.body.appendChild(timelinePopup);
+
+function openTimeline() {
+    timelineOverlay.classList.add('active');
+    timelinePopup.classList.add('active');
+}
+
+function closeTimeline() {
+    timelineOverlay.classList.remove('active');
+    timelinePopup.classList.remove('active');
+}
+
+document.getElementById('timeline-close').addEventListener('click', closeTimeline);
+timelineOverlay.addEventListener('click', closeTimeline); // click backdrop to close too
+
+// ── Marker ────────────────────────────────────────────────────────────────────
+var timelineMarker = L.marker([37.37022337, -121.88035548])
+    .addTo(map)
+    .on('click', openTimeline);
+
+    
