@@ -21,12 +21,12 @@
       "soundUrl": "",
       "bounds": {
         "northEast": [
-          37.37205843,
-          -121.8733492
+          37.37154806,
+          -121.87320471
         ],
         "southWest": [
-          37.36857138,
-          -121.86651562
+          37.3682632,
+          -121.86676741
         ]
       }
     },
@@ -42,6 +42,36 @@
         "southWest": [
           37.36783096,
           -121.88197553
+        ]
+      }
+    },
+    {
+      "id": "poster1",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771279957/Picture1_cnopt5.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36890197,
+          -121.88194876
+        ],
+        "southWest": [
+          37.36679519,
+          -121.88024277
+        ]
+      }
+    },
+    {
+      "id": "cds",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771522601/cds_rqtvaj.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36791705,
+          -121.8841213
+        ],
+        "southWest": [
+          37.36672279,
+          -121.8818146
         ]
       }
     },
@@ -181,21 +211,6 @@
       }
     },
     {
-      "id": "poster1",
-      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771279957/Picture1_cnopt5.jpg",
-      "soundUrl": "",
-      "bounds": {
-        "northEast": [
-          37.36890197,
-          -121.88194876
-        ],
-        "southWest": [
-          37.36679519,
-          -121.88024277
-        ]
-      }
-    },
-    {
       "id": "farmers_market",
       "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771453323/farmers_market_kll5fu.png",
       "soundUrl": "",
@@ -327,6 +342,111 @@
         "southWest": [
           37.36670213,
           -121.86669377
+        ]
+      }
+    },
+    {
+      "id": "cross",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771520893/cross_jryyqa.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.3693395,
+          -121.88462529
+        ],
+        "southWest": [
+          37.36813124,
+          -121.88364949
+        ]
+      }
+    },
+    {
+      "id": "parking",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771521275/parking_r0qwae.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36804219,
+          -121.88588452
+        ],
+        "southWest": [
+          37.36533992,
+          -121.88389231
+        ]
+      }
+    },
+    {
+      "id": "tape2",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771521651/tape2_yn7aha.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37190795,
+          -121.86784029
+        ],
+        "southWest": [
+          37.37081514,
+          -121.86623096
+        ]
+      }
+    },
+    {
+      "id": "tape3",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771521850/tape3_oy19qx.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36910841,
+          -121.86688274
+        ],
+        "southWest": [
+          37.36815768,
+          -121.86660916
+        ]
+      }
+    },
+    {
+      "id": "tape3",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771521746/Washi_T_Black_gnugmt.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.3682195,
+          -121.86894
+        ],
+        "southWest": [
+          37.36694048,
+          -121.86870396
+        ]
+      }
+    },
+    {
+      "id": "tape6",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771521999/tape5_qivmbo.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37087767,
+          -121.88398987
+        ],
+        "southWest": [
+          37.37021687,
+          -121.8830511
+        ]
+      }
+    },
+    {
+      "id": "tape7",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771524330/Washi_T_Yellow_jq1fny.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37166356,
+          -121.87324226
+        ],
+        "southWest": [
+          37.37147733,
+          -121.87163293
         ]
       }
     },

@@ -59,35 +59,27 @@ loadOverlaysFromJSON('assets/data/overlays.json', map);
 function createImagePopup(images) {
     var currentIndex = 0;
 
-    // Overlay background
     var overlay = document.createElement('div');
     overlay.className = 'popup-overlay';
 
-    // Container
     var popupContainer = document.createElement('div');
     popupContainer.className = 'popup-container';
 
-    // Close button
     var closeBtn = document.createElement('button');
     closeBtn.className = 'popup-close-btn';
     closeBtn.innerHTML = '×';
 
-    // Image
     var img = document.createElement('img');
     img.className = 'popup-image';
     img.src = images[currentIndex].url;
 
-    // Caption
     var caption = document.createElement('p');
     caption.className = 'popup-caption';
-    caption.textContent = images[currentIndex].caption;
 
-    // Adjust caption width to match image width after image loads
     img.addEventListener('load', function () {
         caption.style.width = (img.offsetWidth - 16) + 'px';
     });
 
-    // Navigation arrows (only rendered if more than one image)
     var prevBtn = document.createElement('button');
     prevBtn.className = 'popup-nav-btn popup-nav-prev';
     prevBtn.innerHTML = '&#8592;';
@@ -96,13 +88,18 @@ function createImagePopup(images) {
     nextBtn.className = 'popup-nav-btn popup-nav-next';
     nextBtn.innerHTML = '&#8594;';
 
-    // Image counter (e.g. "1 / 3")
     var counter = document.createElement('span');
     counter.className = 'popup-counter';
 
     function updateSlide() {
         img.src = images[currentIndex].url;
-        caption.textContent = images[currentIndex].caption;
+        if (images[currentIndex].caption) {
+            caption.textContent = images[currentIndex].caption;
+            caption.style.display = '';
+        } else {
+            caption.textContent = '';
+            caption.style.display = 'none';
+        }
         counter.textContent = (currentIndex + 1) + ' / ' + images.length;
         prevBtn.disabled = currentIndex === 0;
         nextBtn.disabled = currentIndex === images.length - 1;
@@ -118,7 +115,6 @@ function createImagePopup(images) {
         if (currentIndex < images.length - 1) { currentIndex++; updateSlide(); }
     });
 
-    // Close logic
     function closePopup() {
         document.body.removeChild(popupContainer);
         document.body.removeChild(overlay);
@@ -126,7 +122,6 @@ function createImagePopup(images) {
     closeBtn.addEventListener('click', closePopup);
     overlay.addEventListener('click', closePopup);
 
-    // Assemble
     popupContainer.appendChild(closeBtn);
 
     if (images.length > 1) {
@@ -147,7 +142,7 @@ function createImagePopup(images) {
     document.body.appendChild(overlay);
     document.body.appendChild(popupContainer);
 
-    updateSlide();
+    updateSlide(); // This now handles caption visibility correctly
 }
 
 // Create a single shared layer group for all interactive overlays
@@ -204,6 +199,11 @@ var imageInter = L.imageOverlay(imageUrlInter, imageBoundsInter, {
     opacity: 1,
     interactive: true
 }).addTo(map);
+
+
+imageInter.on('click', function () {
+    playAudioWithFade('https://res.cloudinary.com/do0ehwhde/video/upload/v1771026684/sound3_gzocrq.mp3');
+});
 
 var imageUrlInter2 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771279962/Picture2_bwyyrm.jpg',
     imageBoundsInter2 = [[37.37572907, -121.88698537], [37.37307943, -121.88483960]];
