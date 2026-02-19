@@ -200,27 +200,9 @@ var imageInter = L.imageOverlay(imageUrlInter, imageBoundsInter, {
     interactive: true
 }).addTo(map);
 
-
 imageInter.on('click', function () {
     playAudioWithFade('https://res.cloudinary.com/do0ehwhde/video/upload/v1771026684/sound3_gzocrq.mp3');
 });
-
-var imageUrlInter2 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771279962/Picture2_bwyyrm.jpg',
-    imageBoundsInter2 = [[37.37572907, -121.88698537], [37.37307943, -121.88483960]];
-
-var imageInter2 = L.imageOverlay(imageUrlInter2, imageBoundsInter2, {
-    opacity: 1,
-    interactive: true
-}).addTo(map);
-
-var imageUrlInter3 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771279968/Picture3_lakbgv.jpg',
-    imageBoundsInter3 = [[37.37572907, -121.88469960], [37.37307943, -121.88255383]];
-
-var imageInter3 = L.imageOverlay(imageUrlInter3, imageBoundsInter3, {
-    opacity: 1,
-    interactive: true
-}).addTo(map);
-
 
 
 
