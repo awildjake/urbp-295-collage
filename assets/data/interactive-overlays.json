@@ -4,8 +4,14 @@
       "id": "housing-complex",
       "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771268371/Asset_4_drtycr.png",
       "bounds": {
-        "northEast": [37.37099065, -121.87870059],
-        "southWest": [37.37046218, -121.87834110]
+        "northEast": [
+          37.3677163,
+          -121.87339212
+        ],
+        "southWest": [
+          37.36667627,
+          -121.8726847
+        ]
       },
       "popupImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771269312/IMG_3091_e9pwvl.jpg",
       "caption": "North of the Berryessa Flea Market, a mixed use housing complex occupies what was once an additional parking lot for the market."
@@ -24,8 +30,14 @@
       "id": "traditional-wares",
       "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771268861/Asset_1_wjwdor.png",
       "bounds": {
-        "northEast": [37.36943227, -121.87799916],
-        "southWest": [37.36889410, -121.87743321]
+        "northEast": [
+          37.3681829,
+          -121.87821684
+        ],
+        "southWest": [
+          37.36765923,
+          -121.87766614
+        ]
       },
       "popupImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771272128/IMG_3155_zjguol.jpg",
       "caption": "Traditional Mexican wares include \"cantaro\" clay pottery and different versions of the Virgin Mary."
@@ -34,8 +46,14 @@
       "id": "t-shirts",
       "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771288122/Artboard_1_nfq1qk.png",
       "bounds": {
-        "northEast": [37.37007260, -121.87708586],
-        "southWest": [37.36959162, -121.87630266]
+        "northEast": [
+          37.36893216,
+          -121.87735125
+        ],
+        "southWest": [
+          37.36844478,
+          -121.87655763
+        ]
       },
       "popupImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771288125/IMG_3145_l9ov4m.jpg",
       "caption": "Screen printed t-shirts feature famous Chicano and Mexican characters and heroes. This includes folk singer Chalino Sanchez, \"El Bob\" from the movie La Bamba, and \"Homies\" characters."
@@ -44,11 +62,102 @@
       "id": "timeline10",
       "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771440658/26ec8c20-4be8-498d-9f3b-0a0eeeff9fb6_a1aymd.jpg",
       "bounds": {
-        "northEast": [37.36914484, -121.87867329],
-        "southWest": [37.36900484, -121.87853605]
+        "northEast": [37.36927584, -121.87891491],
+        "southWest": [37.36892606, -121.87857203]
       },
       "popupImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771440658/26ec8c20-4be8-498d-9f3b-0a0eeeff9fb6_a1aymd.jpg",
       "caption": "Screen printed t-shirts feature famous Chicano and Mexican characters and heroes. This includes folk singer Chalino Sanchez, \"El Bob\" from the movie La Bamba, and \"Homies\" characters."
+    },
+    {
+      "id": "streetlow",
+      "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771447437/streetlow_georef_npzzyb.png",
+      "bounds": {
+        "northEast": [37.36912547, -121.88032329],
+        "southWest": [37.36837085, -121.87948644]
+      },
+      "popupImages": [
+        {
+          "url": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771449829/streetlow6_yyxn9v.png",
+          "caption": "A second image caption for this location."
+        },
+        {
+          "url": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771449831/streetlow5_pjk7xf.png",
+          "caption": "A second image caption for this location."
+        },
+        {
+          "url": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771449834/streetlow3_wan2cl.png",
+          "caption": "A second image caption for this location."
+        },
+        {
+          "url": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771449832/streetlow4_v5vlrj.png",
+          "caption": "A second image caption for this location."
+        },
+        {
+          "url": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771449831/streetlow2_c3f6tl.png",
+          "caption": "A second image caption for this location."
+        }
+      ]
+    },
+    {
+      "id": "1981",
+      "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771452507/shot1981_clip_c3ww9q.png",
+      "bounds": {
+        "northEast": [
+          37.37065043,
+          -121.87408948
+        ],
+        "southWest": [
+          37.36879848,
+          -121.87112903
+        ]
+      },
+      "popupImages": [
+        {
+          "url": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771452502/shot1981_uoxdzt.png",
+          "caption": "A second image caption for this location."
+        }
+      ]
+    },
+    {
+      "id": "pavilion",
+      "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771454381/pavilion_np0ywl.png",
+      "bounds": {
+        "northEast": [
+          37.3717544,
+          -121.87732458
+        ],
+        "southWest": [
+          37.3714547,
+          -121.87571526
+        ]
+      },
+      "popupImages": [
+        {
+          "url": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771026537/IMG_1_apnf2j.jpg",
+          "caption": "A second image caption for this location."
+        }
+      ]
+    },
+    {
+      "id": "cowboy",
+      "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771456022/cowboy_s48a1w.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37219317,
+          -121.88058992
+        ],
+        "southWest": [
+          37.37140814,
+          -121.87950949
+        ]
+      },
+      "popupImages": [
+        {
+          "url": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771456266/IMG_3147_ne37eo.jpg",
+          "caption": "A second image caption for this location."
+        }
+      ]
     }
   ]
 }

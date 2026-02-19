@@ -1,6 +1,81 @@
 {
   "overlays": [
     {
+      "id": "pdc17-051",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771461751/pdc17-051_egfkf1.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36860549,
+          -121.86689883
+        ],
+        "southWest": [
+          37.36619635,
+          -121.86212987
+        ]
+      }
+    },
+    {
+      "id": "calthorpe1",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771459419/calthorpe1_fehuif.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37205843,
+          -121.8733492
+        ],
+        "southWest": [
+          37.36857138,
+          -121.86651562
+        ]
+      }
+    },
+    {
+      "id": "bikes",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771457861/bikes_utbarx.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36897469,
+          -121.88413203
+        ],
+        "southWest": [
+          37.36783096,
+          -121.88197553
+        ]
+      }
+    },
+    {
+      "id": "collage",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771282043/collage-1_feoazf.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36683602,
+          -121.8850863
+        ],
+        "southWest": [
+          37.36475969,
+          -121.8804419
+        ]
+      }
+    },
+    {
+      "id": "poster3",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771455075/Picture3_oosvec.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37188767,
+          -121.88013017
+        ],
+        "southWest": [
+          37.37014478,
+          -121.8773514
+        ]
+      }
+    },
+    {
       "id": "base",
       "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771441317/market_observation_map_cejhlw.jpg",
       "soundUrl": "",
@@ -12,6 +87,246 @@
         "southWest": [
           37.36604078,
           -121.87311351
+        ]
+      }
+    },
+    {
+      "id": "BART",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771442034/bart_uph2qg.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37063379,
+          -121.88368034
+        ],
+        "southWest": [
+          37.36893449,
+          -121.88004541
+        ]
+      }
+    },
+    {
+      "id": "pedView",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771440658/shop_activity_sketch_g4lshl.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36616618,
+          -121.88108386
+        ],
+        "southWest": [
+          37.36414622,
+          -121.87712728
+        ]
+      }
+    },
+    {
+      "id": "spacing",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771440658/south_facing_sketch_ujyzcv.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37159239,
+          -121.87683485
+        ],
+        "southWest": [
+          37.37021411,
+          -121.87225677
+        ]
+      }
+    },
+    {
+      "id": "poster2",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771279962/Picture2_bwyyrm.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36601727,
+          -121.87679082
+        ],
+        "southWest": [
+          37.3638645,
+          -121.87496156
+        ]
+      }
+    },
+    {
+      "id": "patron",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771454089/patron_ys24hy.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36609418,
+          -121.87761761
+        ],
+        "southWest": [
+          37.36446124,
+          -121.87607668
+        ]
+      }
+    },
+    {
+      "id": "garden",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771453110/garden_sign_lzteks.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36643688,
+          -121.87793612
+        ],
+        "southWest": [
+          37.36584101,
+          -121.87602639
+        ]
+      }
+    },
+    {
+      "id": "poster1",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771279957/Picture1_cnopt5.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36890197,
+          -121.88194876
+        ],
+        "southWest": [
+          37.36679519,
+          -121.88024277
+        ]
+      }
+    },
+    {
+      "id": "farmers_market",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771453323/farmers_market_kll5fu.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36920962,
+          -121.88250171
+        ],
+        "southWest": [
+          37.36877272,
+          -121.88022626
+        ]
+      }
+    },
+    {
+      "id": "chuckwagon",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771453584/chuckwagon_d1jwd2.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37040507,
+          -121.88011408
+        ],
+        "southWest": [
+          37.37018641,
+          -121.87876225
+        ]
+      }
+    },
+    {
+      "id": "tacos",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771454720/tacos_ooqq7i.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.37154357,
+          -121.87744616
+        ],
+        "southWest": [
+          37.37007961,
+          -121.87669875
+        ]
+      }
+    },
+    {
+      "id": "noentrada",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771455444/noentrada_lsbnar.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36698505,
+          -121.88135409
+        ],
+        "southWest": [
+          37.36605387,
+          -121.8801508
+        ]
+      }
+    },
+    {
+      "id": "reentry",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771455689/reentry_chcdey.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36886018,
+          -121.87370628
+        ],
+        "southWest": [
+          37.36808191,
+          -121.87243491
+        ]
+      }
+    },
+    {
+      "id": "shopping",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771457148/shopping_vsrvly.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36618671,
+          -121.87509835
+        ],
+        "southWest": [
+          37.3642408,
+          -121.87274873
+        ]
+      }
+    },
+    {
+      "id": "mommy",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771457433/mommy_zmojhb.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36669241,
+          -121.87337905
+        ],
+        "southWest": [
+          37.36519323,
+          -121.87135667
+        ]
+      }
+    },
+    {
+      "id": "closed2010",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771461631/calthorpe3_odbd57.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36869756,
+          -121.87292039
+        ],
+        "southWest": [
+          37.36665853,
+          -121.86848938
+        ]
+      }
+    },
+    {
+      "id": "communitymeeting",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771459696/communitymeeting_ton3ka.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36886287,
+          -121.8687937
+        ],
+        "southWest": [
+          37.36670213,
+          -121.86669377
         ]
       }
     },

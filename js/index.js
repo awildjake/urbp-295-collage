@@ -56,53 +56,98 @@ function createImageOverlay(overlayData, map) {
 loadOverlaysFromJSON('assets/data/overlays.json', map);
 
 // Reusable function to create image popup
-function createImagePopup(imageUrl, captionText) {
-    // Create popup container
+function createImagePopup(images) {
+    var currentIndex = 0;
+
+    // Overlay background
+    var overlay = document.createElement('div');
+    overlay.className = 'popup-overlay';
+
+    // Container
     var popupContainer = document.createElement('div');
     popupContainer.className = 'popup-container';
-    
-    // Create close button
+
+    // Close button
     var closeBtn = document.createElement('button');
     closeBtn.className = 'popup-close-btn';
     closeBtn.innerHTML = '×';
-    
-    // Create image
+
+    // Image
     var img = document.createElement('img');
     img.className = 'popup-image';
-    img.src = imageUrl;
-    
-    // Create caption
+    img.src = images[currentIndex].url;
+
+    // Caption
     var caption = document.createElement('p');
     caption.className = 'popup-caption';
-    caption.textContent = captionText;
+    caption.textContent = images[currentIndex].caption;
 
     // Adjust caption width to match image width after image loads
-    img.addEventListener('load', function() {
-        // Get the actual rendered width of the image
-        var imageWidth = img.offsetWidth;
-        // Set caption width to match (subtract border width: 16px total)
-        caption.style.width = (imageWidth - 16) + 'px';
+    img.addEventListener('load', function () {
+        caption.style.width = (img.offsetWidth - 16) + 'px';
     });
 
-    // Create overlay background
-    var overlay = document.createElement('div');
-    overlay.className = 'popup-overlay';
-    
-    // Close popup function
+    // Navigation arrows (only rendered if more than one image)
+    var prevBtn = document.createElement('button');
+    prevBtn.className = 'popup-nav-btn popup-nav-prev';
+    prevBtn.innerHTML = '&#8592;';
+
+    var nextBtn = document.createElement('button');
+    nextBtn.className = 'popup-nav-btn popup-nav-next';
+    nextBtn.innerHTML = '&#8594;';
+
+    // Image counter (e.g. "1 / 3")
+    var counter = document.createElement('span');
+    counter.className = 'popup-counter';
+
+    function updateSlide() {
+        img.src = images[currentIndex].url;
+        caption.textContent = images[currentIndex].caption;
+        counter.textContent = (currentIndex + 1) + ' / ' + images.length;
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === images.length - 1;
+    }
+
+    prevBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (currentIndex > 0) { currentIndex--; updateSlide(); }
+    });
+
+    nextBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (currentIndex < images.length - 1) { currentIndex++; updateSlide(); }
+    });
+
+    // Close logic
     function closePopup() {
         document.body.removeChild(popupContainer);
         document.body.removeChild(overlay);
     }
-    
     closeBtn.addEventListener('click', closePopup);
     overlay.addEventListener('click', closePopup);
-    
-    // Assemble and add to page
+
+    // Assemble
     popupContainer.appendChild(closeBtn);
-    popupContainer.appendChild(img);
+
+    if (images.length > 1) {
+        var navWrapper = document.createElement('div');
+        navWrapper.className = 'popup-nav-wrapper';
+        navWrapper.appendChild(prevBtn);
+        navWrapper.appendChild(img);
+        navWrapper.appendChild(nextBtn);
+        popupContainer.appendChild(navWrapper);
+
+        counter.textContent = '1 / ' + images.length;
+        popupContainer.appendChild(counter);
+    } else {
+        popupContainer.appendChild(img);
+    }
+
     popupContainer.appendChild(caption);
     document.body.appendChild(overlay);
     document.body.appendChild(popupContainer);
+
+    updateSlide();
 }
 
 // Create a single shared layer group for all interactive overlays
@@ -114,19 +159,20 @@ function createInteractiveOverlay(overlayData, map) {
         overlayData.bounds.northEast,
         overlayData.bounds.southWest
     ];
-    
+
     var imageOverlay = L.imageOverlay(overlayData.mapImageUrl, imageBounds, {
         opacity: 1,
         interactive: true,
         className: 'custom-overlay-shadow'
     });
-    
-    imageOverlay.on('click', function() {
-        createImagePopup(overlayData.popupImageUrl, overlayData.caption);
-    });
-    
-    interactiveOverlayLayer.addLayer(imageOverlay);
 
+    imageOverlay.on('click', function () {
+        // Support both old single-image format and new array format
+        var images = overlayData.popupImages || [{ url: overlayData.popupImageUrl, caption: overlayData.caption }];
+        createImagePopup(images);
+    });
+
+    interactiveOverlayLayer.addLayer(imageOverlay);
     if (!map.hasLayer(interactiveOverlayLayer)) {
         interactiveOverlayLayer.addTo(map);
     }
@@ -425,9 +471,15 @@ function closeTimeline() {
 
 document.getElementById('timeline-close').addEventListener('click', closeTimeline);
 timelineOverlay.addEventListener('click', closeTimeline); // click backdrop to close too
-
+/*
 // ── Marker ────────────────────────────────────────────────────────────────────
 var timelineMarker = L.marker([37.37022337, -121.88035548])
     .addTo(map).on('click', openTimeline);
+*/
+var tapeUrl = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771449665/tape_georef_pffjzk.png',
+    tapeBounds = [[37.36464244, -121.88138276], [37.36399438, -121.88024014]];
 
-    
+var tape = L.imageOverlay(tapeUrl, tapeBounds, {
+    opacity: 1,
+    zIndex: 500
+}).addTo(map);
