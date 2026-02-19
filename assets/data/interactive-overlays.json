@@ -179,6 +179,27 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "id": "stalls",
+      "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771531684/IMG_1099_result_ns82bu.jpg",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36442145,
+          -121.87726088
+        ],
+        "southWest": [
+          37.3635673,
+          -121.87645487
+        ]
+      },
+      "popupImages": [
+        {
+          "url": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771531684/IMG_1099_result_ns82bu.jpg",
+          "caption": "Vendor density along a single 900-foot aisle averages one vendor every 25 feet, creating a tightly packed commercial corridor. This concentration reinforces the flea market's identity as a high-intensity informal economy, where continuous storefront activity maximizes visual engagement and pedestrian interaction."
+        }
+      ]
     }
   ]
 }
