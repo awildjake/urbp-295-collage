@@ -158,6 +158,27 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "id": "dress",
+      "mapImageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771529628/dress1_qbznor.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36741085,
+          -121.87571587
+        ],
+        "southWest": [
+          37.3665639,
+          -121.87513529
+        ]
+      },
+      "popupImages": [
+        {
+          "url": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771529635/IMG_1097_result_kies3c.jpg",
+          "caption": ""
+        }
+      ]
     }
   ]
 }

@@ -419,7 +419,16 @@ document.getElementById('timeline-close').addEventListener('click', closeTimelin
 timelineOverlay.addEventListener('click', closeTimeline); // click backdrop to close too
 
 // ── Marker ────────────────────────────────────────────────────────────────────
-var timelineMarker = L.marker([37.37022337, -121.88035548])
+var timelineIcon = L.divIcon({
+    className: '',
+    html: `<img src="assets/img/timeline-icon.svg" style="width:48px;height:48px;cursor:pointer;
+                filter: drop-shadow(0 0 6px rgba(255,242,0,0.9));
+                transition: filter 0.2s ease;">`,
+    iconSize: [48, 48],
+    iconAnchor: [24, 24]
+});
+
+var timelineMarker = L.marker([37.36441007787725, -121.8797278404236], { icon: timelineIcon })
     .addTo(map).on('click', openTimeline);
 
 var tapeUrl = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771449665/tape_georef_pffjzk.png',
@@ -446,22 +455,20 @@ audioMarker.on('click', function () {
 });
 
 var minZoom = 17; // adjust to your preference
+var zoomLayers = [audioMarker, timelineMarker];
 
-function updateAudioMarkerVisibility() {
-    if (map.getZoom() >= minZoom) {
-        if (!map.hasLayer(audioMarker)) {
-            audioMarker.addTo(map);
+function updateMarkerVisibility() {
+    zoomLayers.forEach(function(layer) {
+        if (map.getZoom() >= minZoom) {
+            if (!map.hasLayer(layer)) layer.addTo(map);
+        } else {
+            if (map.hasLayer(layer)) map.removeLayer(layer);
         }
-    } else {
-        if (map.hasLayer(audioMarker)) {
-            map.removeLayer(audioMarker);
-        }
-    }
+    });
 }
 
-// Run on zoom change and on initial load
-map.on('zoomend', updateAudioMarkerVisibility);
-updateAudioMarkerVisibility();
+map.on('zoomend', updateMarkerVisibility);
+updateMarkerVisibility();
 
 map.on('click', function (e) {
     console.log(e.latlng.lat + ', ' + e.latlng.lng);
