@@ -192,37 +192,6 @@ function loadInteractiveOverlays(jsonUrl, map) {
 // Load the interactive overlays
 loadInteractiveOverlays('assets/data/interactive-overlays.json', map);
 
-var imageUrlInter = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771279957/Picture1_cnopt5.jpg',
-    imageBoundsInter = [[37.37572907, -121.88927114], [37.37307943, -121.88712537]];
-
-var imageInter = L.imageOverlay(imageUrlInter, imageBoundsInter, {
-    opacity: 1,
-    interactive: true
-}).addTo(map);
-
-imageInter.on('click', function () {
-    playAudioWithFade('https://res.cloudinary.com/do0ehwhde/video/upload/v1771026684/sound3_gzocrq.mp3');
-});
-
-
-
-var imageUrlInter5 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026586/IMG_7_famvqv.jpg',
-    imageBoundsInter5 = [[37.36816834, -121.88135058], [37.36759989, -121.88027769]];
-
-var imageUrlInter6 = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771026586/IMG_7_famvqv.jpg',
-    imageBoundsInter6 = [[37.36735474, -121.88026428], [37.36645089, -121.87855840]];
-
-
-
-var style = document.createElement('style');
-style.textContent = `
-    .collage-image:hover {
-        opacity: 1 !important;
-        z-index: 1000 !important;
-    }
-`;
-document.head.appendChild(style);
-
 // Global audio management
 var currentAudio = null;
 var isFading = false;
@@ -432,12 +401,7 @@ var timelinePopup = document.createElement('div');
 timelinePopup.id = 'timeline-popup';
 timelinePopup.innerHTML = `
     <button id="timeline-close">✕</button>
-    <iframe 
-        src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vTbDKn39-sYNOPZWwXFyUWHf5C7R8eTznAKUFD422CxmmLrsvP3eZznIjTWKtHONIStgTGfkFVR-SUa&amp;font=Default&amp;lang=en&amp;initial_zoom=2&amp;width=100%25&amp;height=650'
-        width='100%' 
-        height='100%'
-        webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'>
-    </iframe>
+    <iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vTb-2UQYawiFZu50EvjxgMbmHHpGrHJADTOLM_nUEH_1az-czym2wHtAITuEz1r-SMrhCz1Fz456iT8&font=Default&lang=en&initial_zoom=0&width=100%25&height=650' width='100%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
 `;
 document.body.appendChild(timelinePopup);
 
@@ -453,11 +417,11 @@ function closeTimeline() {
 
 document.getElementById('timeline-close').addEventListener('click', closeTimeline);
 timelineOverlay.addEventListener('click', closeTimeline); // click backdrop to close too
-/*
+
 // ── Marker ────────────────────────────────────────────────────────────────────
 var timelineMarker = L.marker([37.37022337, -121.88035548])
     .addTo(map).on('click', openTimeline);
-*/
+
 var tapeUrl = 'https://res.cloudinary.com/do0ehwhde/image/upload/v1771449665/tape_georef_pffjzk.png',
     tapeBounds = [[37.36464244, -121.88138276], [37.36399438, -121.88024014]];
 
@@ -465,3 +429,40 @@ var tape = L.imageOverlay(tapeUrl, tapeBounds, {
     opacity: 1,
     zIndex: 500
 }).addTo(map);
+
+var audioIcon = L.divIcon({
+    className: '',
+    html: `<img src="assets/img/audio-icon.svg" style="width:48px;height:48px;cursor:pointer;
+                filter: drop-shadow(0 0 6px rgba(255,242,0,0.9));
+                transition: filter 0.2s ease;">`,
+    iconSize: [48, 48],
+    iconAnchor: [24, 24]
+});
+
+var audioMarker = L.marker([37.366918184866094, -121.87984443826947], { icon: audioIcon }).addTo(map);
+
+audioMarker.on('click', function () {
+    playAudioWithFade('https://res.cloudinary.com/do0ehwhde/video/upload/v1771526698/BerryessaFleaMarketAudio_bhujog.mp3');
+});
+
+var minZoom = 17; // adjust to your preference
+
+function updateAudioMarkerVisibility() {
+    if (map.getZoom() >= minZoom) {
+        if (!map.hasLayer(audioMarker)) {
+            audioMarker.addTo(map);
+        }
+    } else {
+        if (map.hasLayer(audioMarker)) {
+            map.removeLayer(audioMarker);
+        }
+    }
+}
+
+// Run on zoom change and on initial load
+map.on('zoomend', updateAudioMarkerVisibility);
+updateAudioMarkerVisibility();
+
+map.on('click', function (e) {
+    console.log(e.latlng.lat + ', ' + e.latlng.lng);
+});
