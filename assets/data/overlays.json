@@ -256,36 +256,6 @@
       }
     },
     {
-      "id": "noentrada",
-      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771455444/noentrada_lsbnar.png",
-      "soundUrl": "",
-      "bounds": {
-        "northEast": [
-          37.36698505,
-          -121.88135409
-        ],
-        "southWest": [
-          37.36605387,
-          -121.8801508
-        ]
-      }
-    },
-    {
-      "id": "reentry",
-      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771455689/reentry_chcdey.png",
-      "soundUrl": "",
-      "bounds": {
-        "northEast": [
-          37.36886018,
-          -121.87370628
-        ],
-        "southWest": [
-          37.36808191,
-          -121.87243491
-        ]
-      }
-    },
-    {
       "id": "shopping",
       "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771457148/shopping_vsrvly.png",
       "soundUrl": "",
@@ -447,6 +417,36 @@
         "southWest": [
           37.37147733,
           -121.87163293
+        ]
+      }
+    },
+    {
+      "id": "noentrada",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771455444/noentrada_lsbnar.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36698505,
+          -121.88135409
+        ],
+        "southWest": [
+          37.36605387,
+          -121.8801508
+        ]
+      }
+    },
+    {
+      "id": "reentry",
+      "imageUrl": "https://res.cloudinary.com/do0ehwhde/image/upload/v1771455689/reentry_chcdey.png",
+      "soundUrl": "",
+      "bounds": {
+        "northEast": [
+          37.36886018,
+          -121.87370628
+        ],
+        "southWest": [
+          37.36808191,
+          -121.87243491
         ]
       }
     },
