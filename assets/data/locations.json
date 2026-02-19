@@ -53,30 +53,5 @@
         "name": "timeline10",
         "center": [37.34580869, -121.85520172],
         "zoom": 18
-    },
-    {
-        "name": "Posters",
-        "center": [37.37440425, -121.88591249],
-        "zoom": 18
-    },
-    {
-        "name": "North Housing Complex",
-        "center": [37.37072641, -121.87852084],
-        "zoom": 20
-    },
-    {
-        "name": "Hat Vendor",
-        "center": [37.36940560, -121.87649041],
-        "zoom": 21
-    },
-    {
-        "name": "Traditional Wares",
-        "center": [37.36916318, -121.87771618],
-        "zoom": 20
-    },
-    {
-        "name": "Full Market View",
-        "center": [37.36956549, -121.87987804],
-        "zoom": 17
     }
 ]
