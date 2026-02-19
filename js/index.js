@@ -383,12 +383,7 @@ fetch('assets/data/locations.json')
     })
     .catch(err => console.error('Failed to load locations.json:', err));
 
-var layerControls = {
-    "Static Overlays": overlayLayer,
-    "Interactive Overlays": interactiveOverlayLayer
-};
 
-L.control.layers(null, layerControls).addTo(map);
 
 // ── Timeline Popup ────────────────────────────────────────────────────────────
 
@@ -473,3 +468,12 @@ updateMarkerVisibility();
 map.on('click', function (e) {
     console.log(e.latlng.lat + ', ' + e.latlng.lng);
 });
+
+var layerControls = {
+    "Static Overlays": overlayLayer,
+    "Interactive Overlays": interactiveOverlayLayer,
+    "Audio": audioMarker,
+    "Timeline": timelineMarker
+};
+
+L.control.layers(null, layerControls).addTo(map);
